@@ -1,10 +1,17 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
+import { connection } from 'next/server';
 
 import { Clock3, MapPin } from 'lucide-react';
 
 import { homeContent } from '../data/home';
 
 import { Brand } from './brand';
+
+async function CurrentYear() {
+  await connection();
+  return <>{new Date().getFullYear()}</>;
+}
 
 export default function SiteFooter() {
   return (
@@ -68,7 +75,11 @@ export default function SiteFooter() {
 
         <div className='footer-bottom'>
           <span>
-            © {new Date().getFullYear()} BiteFlow. All rights reserved.
+            ©{' '}
+            <Suspense fallback='2026'>
+              <CurrentYear />
+            </Suspense>{' '}
+            BiteFlow. All rights reserved.
           </span>
 
           <span className='footer-bottom-note'>
