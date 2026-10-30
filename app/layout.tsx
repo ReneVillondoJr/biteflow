@@ -11,13 +11,6 @@ export const metadata: Metadata = {
   description:
     'Discover fresh, comforting favorites from BiteFlow. Explore our menu and order your next favorite meal online.',
   applicationName: 'BiteFlow',
-  openGraph: {
-    title: 'BiteFlow — Good Food, Good Mood',
-    description:
-      'Fresh favorites, thoughtfully made. Explore the BiteFlow menu and order online.',
-    type: 'website',
-    siteName: 'BiteFlow',
-  },
 };
 
 export default function RootLayout({

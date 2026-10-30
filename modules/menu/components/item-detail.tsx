@@ -8,8 +8,8 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 
-import SiteFooter from '@/modules/home/components/site-footer';
-import SiteHeader from '@/modules/home/components/site-header';
+import SiteFooter from '@/components/public/layout/site-footer';
+import SiteHeader from '@/components/public/layout/site-header';
 
 import type { MenuItem } from '../types/menu';
 

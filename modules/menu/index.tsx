@@ -1,5 +1,5 @@
-import SiteFooter from '@/modules/home/components/site-footer';
-import SiteHeader from '@/modules/home/components/site-header';
+import SiteFooter from '@/components/public/layout/site-footer';
+import SiteHeader from '@/components/public/layout/site-header';
 
 import MenuCatalog from './components/catalog';
 import MenuCTA from './components/cta';

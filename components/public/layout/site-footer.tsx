@@ -1,23 +1,19 @@
 import Link from 'next/link';
-import { Suspense } from 'react';
-import { connection } from 'next/server';
 
 import { Clock3, MapPin } from 'lucide-react';
 
-import { homeContent } from '../data/home';
+import { Brand } from '@/components/public/shared/brand';
 
-import { Brand } from './brand';
-
-async function CurrentYear() {
-  await connection();
-  return <>{new Date().getFullYear()}</>;
-}
+import { publicFooterDiscover, publicFooterExplore } from './navigation';
 
 export default function SiteFooter() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className='site-footer'>
       <div className='container'>
         <div className='footer-main'>
+          {/* Brand */}
           <div className='footer-brand'>
             <Brand />
 
@@ -27,38 +23,40 @@ export default function SiteFooter() {
             </p>
           </div>
 
+          {/* Explore */}
           <div className='footer-column'>
             <h3>Explore</h3>
 
             <nav className='footer-links' aria-label='Explore'>
-              {homeContent.restaurantLinks.map((item) => (
-                <Link href={item.href} key={item.label}>
+              {publicFooterExplore.map((item) => (
+                <Link href={item.href} key={item.href}>
                   {item.label}
                 </Link>
               ))}
             </nav>
           </div>
 
+          {/* Discover */}
           <div className='footer-column'>
             <h3>Discover</h3>
 
             <nav className='footer-links' aria-label='Discover'>
-              {homeContent.exploreLinks.map((item) => (
-                <Link href={item.href} key={item.label}>
+              {publicFooterDiscover.map((item) => (
+                <Link href={item.href} key={item.href}>
                   {item.label}
                 </Link>
               ))}
-
-              <Link href='/account'>My account</Link>
             </nav>
           </div>
 
+          {/* Contact information */}
           <div className='footer-column'>
             <h3>Come say hello</h3>
 
             <div className='footer-contact'>
               <div className='footer-contact-item'>
                 <MapPin aria-hidden='true' />
+
                 <span>
                   Visit our locations page for restaurant information and
                   directions.
@@ -67,20 +65,16 @@ export default function SiteFooter() {
 
               <div className='footer-contact-item'>
                 <Clock3 aria-hidden='true' />
+
                 <span>Check our published opening hours before visiting.</span>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Copyright */}
         <div className='footer-bottom'>
-          <span>
-            ©{' '}
-            <Suspense fallback='2026'>
-              <CurrentYear />
-            </Suspense>{' '}
-            BiteFlow. All rights reserved.
-          </span>
+          <span>© {currentYear} BiteFlow. All rights reserved.</span>
 
           <span className='footer-bottom-note'>
             Made with care for good food lovers.
