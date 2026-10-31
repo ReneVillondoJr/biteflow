@@ -7,7 +7,7 @@ import { Brand } from '@/components/public/shared/brand';
 import { publicFooterDiscover, publicFooterExplore } from './navigation';
 
 export default function SiteFooter() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2026;
 
   return (
     <footer className='site-footer'>
@@ -42,7 +42,7 @@ export default function SiteFooter() {
 
             <nav className='footer-links' aria-label='Discover'>
               {publicFooterDiscover.map((item) => (
-                <Link href={item.href} key={item.href}>
+                <Link href={item.href} key={`${item.label}-${item.href}`}>
                   {item.label}
                 </Link>
               ))}
