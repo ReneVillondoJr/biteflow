@@ -4,7 +4,7 @@ export type PublicNavigationItem = {
 };
 
 export const publicHeaderNavigation: PublicNavigationItem[] = [
-  { label: 'Menu', href: '/menu' },
+  { label: 'Menu', href: '/menu#menu-catalog' },
   { label: 'Offers', href: '/offers' },
   { label: 'Our story', href: '/about' },
   { label: 'Locations', href: '/locations' },
