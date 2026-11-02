@@ -1,6 +1,3 @@
-import SiteHeader from '@/components/public/layout/site-header';
-import SiteFooter from '@/components/public/layout/site-footer';
-
 import HeroSection from './components/hero-section';
 import HighlightsSection from './components/highlights-section';
 import FeaturedMenuSection from './components/featured-menu-section';
@@ -12,21 +9,15 @@ import FinalCallToAction from './components/final-cta';
 
 export default function HomePage() {
   return (
-    <>
-      <SiteHeader />
-
-      <main>
-        <HeroSection />
-        <HighlightsSection />
-        <PromotionsSection />
-        <FeaturedMenuSection />
-        <StorySection />
-        <OrderingSection />
-        <ManifestoSection />
-        <FinalCallToAction />
-      </main>
-
-      <SiteFooter />
-    </>
+    <div>
+      <HeroSection />
+      <HighlightsSection />
+      <PromotionsSection />
+      <FeaturedMenuSection />
+      <StorySection />
+      <OrderingSection />
+      <ManifestoSection />
+      <FinalCallToAction />
+    </div>
   );
 }

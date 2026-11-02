@@ -8,9 +8,6 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 
-import SiteFooter from '@/components/public/layout/site-footer';
-import SiteHeader from '@/components/public/layout/site-header';
-
 import type { MenuItem } from '../types/menu';
 
 type MenuItemDetailProps = {
@@ -20,9 +17,7 @@ type MenuItemDetailProps = {
 export default function MenuItemDetail({ item }: MenuItemDetailProps) {
   return (
     <>
-      <SiteHeader />
-
-      <main className='menu-detail-page'>
+      <div className='menu-detail-page'>
         <div className='container'>
           <Link className='menu-detail-back' href='/menu'>
             <ArrowLeft aria-hidden='true' />
@@ -113,9 +108,7 @@ export default function MenuItemDetail({ item }: MenuItemDetailProps) {
             </div>
           </div>
         </div>
-      </main>
-
-      <SiteFooter />
+      </div>
     </>
   );
 }

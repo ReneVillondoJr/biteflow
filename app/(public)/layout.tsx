@@ -9,12 +9,12 @@ export default function PublicLayout({
   children: ReactNode;
 }>) {
   return (
-    <>
+    <main>
       <SiteHeader />
 
       <main className='public-main'>{children}</main>
 
       <SiteFooter />
-    </>
+    </main>
   );
 }
