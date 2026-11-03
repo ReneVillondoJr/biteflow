@@ -1,10 +1,13 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Locations</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import type { Metadata } from 'next';
+
+import LocationsPage from '@/modules/locations';
+
+export const metadata: Metadata = {
+  title: 'Locations',
+  description:
+    'Find your nearest BiteFlow location and start a pickup or delivery order.',
+};
+
+export default function Page() {
+  return <LocationsPage />;
 }
