@@ -1,10 +1,12 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Contact</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import type { Metadata } from 'next';
+
+import ContactPage from '@/modules/contact';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Contact BiteFlow for help, feedback, partnerships, or general questions.',
+};
+
+export default function Page() {
+  return <ContactPage />;
 }
