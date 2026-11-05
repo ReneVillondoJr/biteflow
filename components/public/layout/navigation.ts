@@ -15,7 +15,7 @@ export const publicMobileNavigation: PublicNavigationItem[] = [
   { label: 'Home', href: '/' },
   ...publicHeaderNavigation,
   { label: 'Reservations', href: '/reservations' },
-  { label: 'My account', href: '/auth/login' },
+  { label: 'My account', href: '/account' },
 ];
 
 export const publicFooterExplore: PublicNavigationItem[] = [
@@ -28,5 +28,5 @@ export const publicFooterDiscover: PublicNavigationItem[] = [
   { label: 'Special offers', href: '/offers' },
   { label: 'Order online', href: '/menu' },
   { label: 'Reservations', href: '/reservations' },
-  { label: 'My account', href: '/auth/login' },
+  { label: 'My account', href: '/account' },
 ];

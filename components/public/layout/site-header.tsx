@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { ArrowUpRight, Menu as MenuIcon, ShoppingBag } from 'lucide-react';
+import { ArrowUpRight, Menu as MenuIcon, ShoppingBag, UserRound } from 'lucide-react';
 
 import { Brand } from '@/components/public/shared/brand';
 
@@ -41,6 +41,20 @@ export default function SiteHeader() {
         </nav>
 
         <div className='header-actions'>
+          <Link
+            className={
+              pathname === '/account' || pathname.startsWith('/auth/')
+                ? 'header-account header-account--active'
+                : 'header-account'
+            }
+            href='/account'
+            aria-label='My account'
+            aria-current={pathname === '/account' || pathname.startsWith('/auth/') ? 'page' : undefined}
+            title='My account'
+          >
+            <UserRound aria-hidden='true' />
+          </Link>
+
           <Link className='header-order' href='/menu#menu-catalog'>
             <ShoppingBag aria-hidden='true' />
 
