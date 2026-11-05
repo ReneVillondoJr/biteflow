@@ -1,4 +1,6 @@
-﻿export default function Page() {
+export const instant = false;
+
+export default function Page() {
   return (
     <section className="space-y-2">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
