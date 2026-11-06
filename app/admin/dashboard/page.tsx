@@ -1,12 +1,7 @@
+import DashboardPage from '@/modules/dashboard';
+
 export const instant = false;
 
 export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+  return <DashboardPage />;
 }
