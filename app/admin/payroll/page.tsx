@@ -1,10 +1,5 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Payroll</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import { PackageCheck } from 'lucide-react';
+import AdminModulePage from '@/components/admin/shared/module-page';
+export default function Page() {
+  return <AdminModulePage title='Payroll' description='Manage employee compensation, pay periods, deductions, and payroll history.' icon={PackageCheck} />;
 }

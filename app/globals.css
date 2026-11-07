@@ -2152,9 +2152,51 @@ img {
   height: 15px;
 }
 
-.admin-checking {
-  min-height: 100vh;
-  background: var(--background);
+.admin-content {
+  position: relative;
+}
+
+.admin-authorized-content--hidden {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+.admin-checking-overlay {
+  position: absolute;
+  inset: 34px;
+  display: grid;
+  gap: 14px;
+  z-index: 2;
+}
+
+.admin-checking-card,
+.admin-checking-grid div {
+  border: 1px solid var(--border);
+  background: linear-gradient(100deg, var(--surface) 20%, var(--surface-muted) 50%, var(--surface) 80%);
+  background-size: 220% 100%;
+  animation: admin-checking-shimmer 1.4s ease-in-out infinite;
+}
+
+.admin-checking-card {
+  height: 118px;
+  border-radius: var(--radius-md);
+}
+
+.admin-checking-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-checking-grid div {
+  height: 220px;
+  border-radius: var(--radius-md);
+}
+
+@keyframes admin-checking-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
 }
 
 .admin-shell {
@@ -2366,6 +2408,43 @@ img {
   color: var(--foreground-muted);
 }
 
+.dashboard-period {
+  position: relative;
+}
+
+.dashboard-period-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  display: grid;
+  width: 210px;
+  gap: 3px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 6px;
+  box-shadow: var(--shadow-soft);
+}
+
+.dashboard-period-option {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  padding-inline: 10px;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+}
+
+.dashboard-period-option:hover,
+.dashboard-period-option--active {
+  background: var(--surface-muted);
+  color: var(--primary);
+  font-weight: 800;
+}
+
 .dashboard-metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2385,6 +2464,12 @@ img {
   background: var(--surface);
   padding: 18px;
   box-shadow: var(--shadow-card);
+}
+
+.dashboard-metric-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  transition: transform 160ms ease, border-color 160ms ease;
 }
 
 .dashboard-metric-icon {
@@ -2521,6 +2606,65 @@ img {
 .dashboard-panel-heading button svg {
   width: 17px;
   height: 17px;
+}
+
+.dashboard-panel-menu {
+  position: relative;
+}
+
+.dashboard-panel-menu summary {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--foreground-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.dashboard-panel-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.dashboard-panel-menu summary:hover,
+.dashboard-panel-menu[open] summary {
+  background: var(--surface-muted);
+}
+
+.dashboard-panel-menu summary svg {
+  width: 17px;
+  height: 17px;
+}
+
+.dashboard-panel-menu > div {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  z-index: 30;
+  display: grid;
+  width: 150px;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 5px;
+  box-shadow: var(--shadow-soft);
+}
+
+.dashboard-panel-menu a {
+  min-height: 36px;
+  align-content: center;
+  border-radius: 7px;
+  padding-inline: 9px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.dashboard-panel-menu a:hover {
+  background: var(--surface-muted);
+  color: var(--primary);
 }
 
 .dashboard-chart {
@@ -2674,6 +2818,31 @@ img {
   overflow-x: auto;
 }
 
+.dashboard-order-filter {
+  display: flex;
+  gap: 5px;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 18px;
+}
+
+.dashboard-order-filter button {
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding-inline: 9px;
+  color: var(--foreground-muted);
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.dashboard-order-filter button:hover,
+.dashboard-order-filter button.dashboard-order-filter--active {
+  background: var(--primary);
+  color: white;
+}
+
 .dashboard-table-wrap table {
   width: 100%;
   border-collapse: collapse;
@@ -2809,7 +2978,7 @@ img {
   box-shadow: var(--shadow-card);
 }
 
-.dashboard-operations > div {
+.dashboard-operations > a {
   display: flex;
   min-height: 76px;
   align-items: center;
@@ -2818,8 +2987,12 @@ img {
   padding-inline: 18px;
 }
 
-.dashboard-operations > div:last-child {
+.dashboard-operations > a:last-child {
   border-right: 0;
+}
+
+.dashboard-operations > a:hover {
+  background: var(--surface-muted);
 }
 
 .dashboard-operation-icon {
@@ -2840,7 +3013,37 @@ img {
 .dashboard-operation-icon--bike { background: rgba(91,135,153,.11); color: #557f91; }
 .dashboard-operation-icon--bag { background: rgba(65,116,84,.1); color: var(--success); }
 
-.dashboard-operations > div > div {
+.dashboard-operation-card {
+  overflow: visible;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.dashboard-operation-card:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.dashboard-operation-card:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.dashboard-operation-card > a {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  gap: 11px;
+  padding-inline: 18px;
+}
+
+.dashboard-operation-card > a:hover {
+  background: var(--surface-muted);
+}
+
+.dashboard-operation-card > a > div {
+  display: grid;
+}
+
+.dashboard-operations > a > div {
   display: grid;
 }
 
@@ -3022,6 +3225,14 @@ img {
     padding: 22px;
   }
 
+  .admin-checking-overlay {
+    inset: 20px 16px;
+  }
+
+  .admin-checking-grid {
+    grid-template-columns: 1fr;
+  }
+
   .dashboard-heading {
     align-items: flex-start;
     margin-bottom: 18px;
@@ -3119,13 +3330,13 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .dashboard-operations > div {
+  .dashboard-operations > a {
     min-height: 66px;
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
 
-  .dashboard-operations > div:last-child {
+  .dashboard-operations > a:last-child {
     border-bottom: 0;
   }
 }

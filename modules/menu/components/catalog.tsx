@@ -5,6 +5,8 @@ import type { MenuData } from '../types/menu';
 
 import MenuFilters from './filters';
 import MenuGrid from './grid';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 type MenuCatalogProps = {
   data: MenuData;
@@ -28,28 +30,28 @@ export default function MenuCatalog({ data }: MenuCatalogProps) {
   }
 
   return (
-    <section className='section menu-catalog-section' id='menu-catalog'>
-      <div className='container'>
-        <div className='menu-catalog-heading'>
+    <section className='scroll-mt-24 py-16 md:py-24' id='menu-catalog'>
+      <div className='mx-auto w-full max-w-[1200px] px-4 md:px-6'>
+        <div className='mb-8 flex items-end justify-between gap-6'>
           <div>
-            <span className='section-label'>
-              <span className='section-label__dot' />
+            <span className='inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[.16em] text-primary'>
+              <span className='size-2 rounded-full bg-accent' />
               Explore the menu
             </span>
 
-            <h2 className='display-heading'>
+            <h2 className='mt-4 font-heading text-4xl leading-tight tracking-tight md:text-5xl'>
               A little something
               <br />
               for <em>every craving.</em>
             </h2>
 
-            <p className='section-description'>
+            <p className='mt-4 max-w-xl text-sm leading-7 text-muted-foreground'>
               Browse the collection, find what you love, and discover something
               new for your next meal.
             </p>
           </div>
 
-          <div className='menu-catalog-count'>
+          <div className='hidden min-w-36 text-right sm:grid'>
             <span className='menu-catalog-count-number'>
               {data.items.length.toString().padStart(2, '0')}
             </span>
@@ -69,7 +71,7 @@ export default function MenuCatalog({ data }: MenuCatalogProps) {
           onClear={clearFilters}
         />
 
-        <div className='menu-results-heading' aria-live='polite'>
+        <div className='mb-5 mt-8 flex items-end justify-between' aria-live='polite'>
           <div>
             <h3>{activeCategoryLabel}</h3>
             <p>
@@ -82,18 +84,17 @@ export default function MenuCatalog({ data }: MenuCatalogProps) {
 
         {filteredItems.length > 0 ?
           <MenuGrid items={filteredItems} />
-        : <div className='menu-empty-state'>
-            <div className='menu-empty-icon'>⌕</div>
+        : <Card className='grid min-h-64 place-content-center justify-items-center rounded-2xl border-border text-center'>
+            <div className='text-3xl text-muted-foreground'>⌕</div>
             <h3>No dishes found</h3>
             <p>Try another search or choose a different menu category.</p>
-            <button
-              className='button button--primary'
+            <Button
               type='button'
               onClick={clearFilters}
             >
               Clear all filters
-            </button>
-          </div>
+            </Button>
+          </Card>
         }
       </div>
     </section>

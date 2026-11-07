@@ -1,10 +1,5 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Reports</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import { ChartNoAxesCombined } from 'lucide-react';
+import AdminModulePage from '@/components/admin/shared/module-page';
+export default function Page() {
+  return <AdminModulePage title='Reports' description='Analyze revenue, orders, customers, inventory, and operational performance.' icon={ChartNoAxesCombined} />;
 }

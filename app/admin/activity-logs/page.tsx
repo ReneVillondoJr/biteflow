@@ -1,10 +1,6 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Activity Logs</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import { Activity } from 'lucide-react';
+import AdminModulePage from '@/components/admin/shared/module-page';
+
+export default function Page() {
+  return <AdminModulePage title='Activity Logs' description='Review secure administrator actions, changes, and operational events.' icon={Activity} />;
 }

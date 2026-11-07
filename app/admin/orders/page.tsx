@@ -1,10 +1,6 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Orders</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import { ReceiptText } from 'lucide-react';
+import AdminModulePage from '@/components/admin/shared/module-page';
+
+export default function Page() {
+  return <AdminModulePage title='Orders' description='Search, review, update, and fulfill all customer orders.' icon={ReceiptText} />;
 }

@@ -1,10 +1,5 @@
-﻿export default function Page() {
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Promotions</h1>
-      <p className="text-muted-foreground">
-        This page is under construction.
-      </p>
-    </section>
-  );
+import { Activity } from 'lucide-react';
+import AdminModulePage from '@/components/admin/shared/module-page';
+export default function Page() {
+  return <AdminModulePage title='Promotions' description='Create and schedule campaigns, discounts, bundles, and featured offers.' icon={Activity} />;
 }

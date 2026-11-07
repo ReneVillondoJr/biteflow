@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { ArrowUpRight, Menu as MenuIcon, ShoppingBag, UserRound } from 'lucide-react';
 
 import { Brand } from '@/components/public/shared/brand';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 import { publicHeaderNavigation, publicMobileNavigation } from './navigation';
 
@@ -23,14 +25,14 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className='site-header'>
-      <div className='container header-inner'>
+    <header className='sticky top-0 z-40 border-b border-border/80 bg-background/95 backdrop-blur'>
+      <div className='mx-auto flex h-[72px] w-full max-w-[1200px] items-center justify-between px-4 md:px-6'>
         <Brand />
 
-        <nav className='desktop-nav' aria-label='Main navigation'>
+        <nav className='hidden items-center gap-1 lg:flex' aria-label='Main navigation'>
           {publicHeaderNavigation.map((item) => (
             <Link
-              className={isActive(item.href) ? 'desktop-nav-link--active' : undefined}
+              className={`rounded-lg px-3 py-2 text-xs font-bold transition-colors hover:bg-muted ${isActive(item.href) ? 'bg-primary/8 text-primary' : 'text-muted-foreground'}`}
               href={item.href}
               key={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
@@ -40,12 +42,10 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <div className='header-actions'>
+        <div className='flex items-center gap-2'>
           <Link
             className={
-              pathname === '/account' || pathname.startsWith('/auth/')
-                ? 'header-account header-account--active'
-                : 'header-account'
+              `flex size-10 items-center justify-center rounded-full border border-border bg-card transition-colors hover:bg-muted ${pathname === '/account' || pathname.startsWith('/auth/') ? 'text-primary' : 'text-muted-foreground'}`
             }
             href='/account'
             aria-label='My account'
@@ -55,7 +55,7 @@ export default function SiteHeader() {
             <UserRound aria-hidden='true' />
           </Link>
 
-          <Link className='header-order' href='/menu#menu-catalog'>
+          <Link className='hidden items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-extrabold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:flex' href='/menu#menu-catalog'>
             <ShoppingBag aria-hidden='true' />
 
             <span>Order online</span>
@@ -63,15 +63,19 @@ export default function SiteHeader() {
             <ArrowUpRight aria-hidden='true' />
           </Link>
 
-          <details className='mobile-nav'>
-            <summary aria-label='Open navigation menu'>
+          <Sheet>
+            <SheetTrigger
+              render={<Button variant='outline' size='icon' className='lg:hidden' />}
+              aria-label='Open navigation menu'
+            >
               <MenuIcon aria-hidden='true' />
-            </summary>
-
-            <nav className='mobile-menu-panel' aria-label='Mobile navigation'>
+            </SheetTrigger>
+            <SheetContent side='right' className='w-[min(88vw,360px)] bg-background p-6'>
+              <Brand />
+              <nav className='mt-6 grid gap-1' aria-label='Mobile navigation'>
               {publicMobileNavigation.map((item) => (
                 <Link
-                  className={isActive(item.href) ? 'mobile-nav-link--active' : undefined}
+                  className={`rounded-lg px-3 py-3 text-sm font-bold ${isActive(item.href) ? 'bg-primary/8 text-primary' : 'text-muted-foreground hover:bg-muted'}`}
                   href={item.href}
                   key={item.href}
                   aria-current={isActive(item.href) ? 'page' : undefined}
@@ -80,7 +84,8 @@ export default function SiteHeader() {
                 </Link>
               ))}
             </nav>
-          </details>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

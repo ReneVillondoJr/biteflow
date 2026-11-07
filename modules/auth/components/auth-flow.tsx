@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 
 import {
   ArrowRight,
@@ -13,15 +13,13 @@ import {
   Package,
   UserRound,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
-type AuthMode = 'login' | 'register';
-
-type CustomerProfile = {
-  name: string;
-  email: string;
-};
-
-const profileKey = 'biteflow_customer_profile';
+import { authContent, authProfileStorageKey } from '../data/auth';
+import { useAuthProfile } from '../hooks/use-auth-profile';
+import type { AuthMode, CustomerProfile } from '../types/auth';
 
 export function AuthPage({ mode }: { mode: AuthMode }) {
   const router = useRouter();
@@ -39,7 +37,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
 
       if (!isRegister) {
         try {
-          const stored = window.localStorage.getItem(profileKey);
+          const stored = window.localStorage.getItem(authProfileStorageKey);
           existingProfile = stored ? (JSON.parse(stored) as CustomerProfile) : null;
         } catch {
           existingProfile = null;
@@ -47,7 +45,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
       }
 
       window.localStorage.setItem(
-        profileKey,
+        authProfileStorageKey,
         JSON.stringify({
           name: isRegister
             ? name || email.split('@')[0]
@@ -63,11 +61,11 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
   }
 
   return (
-    <section className='auth-section'>
-      <div className='container auth-grid'>
-        <aside className='auth-story'>
-          <span className='section-label'>
-            <span className='section-label__dot' />
+    <section className='grid min-h-[70vh] place-items-center py-12 md:py-20'>
+      <div className='mx-auto grid w-full max-w-[1100px] gap-8 px-4 md:px-6 lg:grid-cols-[1fr_440px]'>
+        <aside className='self-center'>
+          <span className='inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-primary'>
+            <span className='size-2 rounded-full bg-accent' />
             BiteFlow member
           </span>
           <h1>
@@ -79,39 +77,39 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
             Save your details for faster checkout, keep track of orders, and
             discover offers made for you.
           </p>
-          <div className='auth-benefits'>
-            <div><CheckCircle2 aria-hidden='true' /> Faster checkout</div>
-            <div><CheckCircle2 aria-hidden='true' /> Order tracking</div>
-            <div><CheckCircle2 aria-hidden='true' /> Member-only offers</div>
+          <div className='mt-6 grid gap-3 text-sm text-muted-foreground'>
+            {authContent.benefits.map((benefit) => (
+              <div className='flex items-center gap-2' key={benefit}><CheckCircle2 className='size-4 text-primary' aria-hidden='true' /> {benefit}</div>
+            ))}
           </div>
         </aside>
 
-        <div className='auth-card'>
-          <div className='auth-card-heading'>
-            <span className='auth-icon'><UserRound aria-hidden='true' /></span>
+        <Card className='rounded-2xl border-border p-6 shadow-sm md:p-8'>
+          <div className='mb-6 flex items-center gap-3'>
+            <span className='flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary'><UserRound className='size-5' aria-hidden='true' /></span>
             <div>
               <span>{isRegister ? 'Create account' : 'Welcome back'}</span>
               <h2>{isRegister ? 'Join BiteFlow' : 'Sign in to your account'}</h2>
             </div>
           </div>
 
-          <form className='auth-form' onSubmit={handleSubmit}>
+          <form className='grid gap-4' onSubmit={handleSubmit}>
             {isRegister && (
               <label>
                 Full name
-                <input name='name' type='text' required placeholder='Juan Dela Cruz' autoComplete='name' />
+                <Input name='name' type='text' required placeholder='Juan Dela Cruz' autoComplete='name' />
               </label>
             )}
 
-            <label>
+            <label className='grid gap-2 text-xs font-bold'>
               Email address
-              <input name='email' type='email' required placeholder='juan@email.com' autoComplete='email' />
+              <Input name='email' type='email' required placeholder='juan@email.com' autoComplete='email' />
             </label>
 
             <label>
               Password
-              <span className='auth-password'>
-                <input
+              <span className='relative'>
+                <Input
                   name='password'
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -119,20 +117,23 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
                   placeholder='At least 6 characters'
                   autoComplete={isRegister ? 'new-password' : 'current-password'}
                 />
-                <button
+                <Button
+                  variant='ghost'
+                  size='icon-xs'
+                  className='absolute right-1 top-1'
                   type='button'
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword((value) => !value)}
                 >
                   {showPassword ? <EyeOff aria-hidden='true' /> : <Eye aria-hidden='true' />}
-                </button>
+                </Button>
               </span>
             </label>
 
-            <button className='button button--primary auth-submit' type='submit'>
+            <Button className='mt-2 w-full' type='submit'>
               {isRegister ? 'Create account' : 'Sign in'}
               <ArrowRight aria-hidden='true' />
-            </button>
+            </Button>
           </form>
 
           <p className='auth-switch'>
@@ -141,7 +142,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               {isRegister ? 'Sign in' : 'Create an account'}
             </Link>
           </p>
-        </div>
+        </Card>
       </div>
     </section>
   );
@@ -149,21 +150,10 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
 
 export function AccountPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<CustomerProfile | null>(null);
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(profileKey);
-      setProfile(stored ? (JSON.parse(stored) as CustomerProfile) : null);
-    } catch {
-      setProfile(null);
-    }
-    setChecked(true);
-  }, []);
+  const { profile, checked, signOut: clearProfile } = useAuthProfile();
 
   function signOut() {
-    window.localStorage.removeItem(profileKey);
+    clearProfile();
     router.push('/auth/login');
   }
 
@@ -171,59 +161,59 @@ export function AccountPage() {
 
   if (!profile) {
     return (
-      <section className='account-empty section'>
-        <div className='container'>
-          <div className='account-empty-card'>
-            <span className='account-empty-icon'><UserRound aria-hidden='true' /></span>
-            <span className='account-empty-label'>Customer account</span>
+      <section className='grid min-h-[60vh] place-items-center px-4 py-16'>
+        <div className='mx-auto w-full max-w-[1200px]'>
+          <Card className='mx-auto grid max-w-md justify-items-center rounded-2xl border-border p-8 text-center shadow-sm'>
+            <span className='flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary'><UserRound aria-hidden='true' /></span>
+            <span className='mt-4 text-[10px] font-black uppercase tracking-wider text-primary'>Customer account</span>
             <h1>Sign in to view your account</h1>
             <p>Track orders and keep your BiteFlow details close at hand.</p>
-            <div className='account-empty-actions'>
-              <Link className='button button--primary' href='/auth/login'>Sign in</Link>
-              <Link className='button button--outline' href='/auth/register'>Create account</Link>
+            <div className='mt-6 flex gap-3'>
+              <Button render={<Link href='/auth/login' />}>Sign in</Button>
+              <Button variant='outline' render={<Link href='/auth/register' />}>Create account</Button>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     );
   }
 
   return (
-    <section className='section account-section'>
-      <div className='container'>
-        <div className='account-heading'>
+    <section className='py-16 md:py-20'>
+      <div className='mx-auto w-full max-w-[1200px] px-4 md:px-6'>
+        <div className='mb-8 flex items-end justify-between gap-4'>
           <div>
-            <span className='section-label'>
-              <span className='section-label__dot' />
+            <span className='inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-primary'>
+              <span className='size-2 rounded-full bg-accent' />
               My account
             </span>
             <h1>Welcome, {profile.name}</h1>
           </div>
-          <button className='button button--outline' type='button' onClick={signOut}>
+          <Button variant='outline' type='button' onClick={signOut}>
             <LogOut aria-hidden='true' />
             Sign out
-          </button>
+          </Button>
         </div>
 
-        <div className='account-grid'>
-          <article className='account-card account-profile-card'>
-            <span className='account-card-icon'><UserRound aria-hidden='true' /></span>
+        <div className='grid gap-4 md:grid-cols-2'>
+          <Card className='grid grid-cols-[48px_1fr] gap-4 rounded-2xl border-border p-5'>
+            <span className='flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary'><UserRound aria-hidden='true' /></span>
             <div>
               <span>Personal details</span>
               <h2>{profile.name}</h2>
               <p>{profile.email}</p>
             </div>
-          </article>
+          </Card>
 
-          <article className='account-card'>
-            <span className='account-card-icon'><Package aria-hidden='true' /></span>
+          <Card className='grid grid-cols-[48px_1fr] gap-4 rounded-2xl border-border p-5'>
+            <span className='flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700'><Package aria-hidden='true' /></span>
             <div>
               <span>Recent orders</span>
               <h2>No orders yet</h2>
               <p>Your orders and delivery updates will appear here.</p>
             </div>
-            <Link className='text-link' href='/menu#menu-catalog'>Browse the menu <ArrowRight aria-hidden='true' /></Link>
-          </article>
+            <Link className='col-start-2 inline-flex items-center gap-2 text-xs font-black text-primary' href='/menu#menu-catalog'>Browse the menu <ArrowRight className='size-4' aria-hidden='true' /></Link>
+          </Card>
         </div>
       </div>
     </section>

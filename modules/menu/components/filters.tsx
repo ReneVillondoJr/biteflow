@@ -3,6 +3,8 @@
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 
 import type { MenuCategory, MenuSortOption } from '../types/menu';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 type MenuFiltersProps = {
   categories: MenuCategory[];
@@ -30,12 +32,12 @@ export default function MenuFilters({
   const hasActiveFilters = activeCategory !== 'all' || search.trim().length > 0;
 
   return (
-    <div className='menu-filter-panel'>
-      <div className='menu-filter-top'>
-        <div className='menu-search'>
+    <div className='rounded-2xl border border-border bg-card p-4 shadow-sm'>
+      <div className='flex flex-col gap-3 sm:flex-row'>
+        <div className='relative flex-1'>
           <Search aria-hidden='true' />
 
-          <input
+          <Input
             type='search'
             aria-label='Search menu items'
             placeholder='Search dishes, ingredients, or categories...'
@@ -44,18 +46,20 @@ export default function MenuFilters({
           />
 
           {search ?
-            <button
-              className='menu-search-clear'
+            <Button
+              variant='ghost'
+              size='icon-xs'
+              className='absolute right-1 top-0.5'
               type='button'
               aria-label='Clear search'
               onClick={() => onSearchChange('')}
             >
               <X aria-hidden='true' />
-            </button>
+            </Button>
           : null}
         </div>
 
-        <label className='menu-sort'>
+        <label className='flex items-center gap-2'>
           <SlidersHorizontal aria-hidden='true' />
 
           <span className='menu-sort-label'>Sort</span>
@@ -63,6 +67,7 @@ export default function MenuFilters({
           <select
             aria-label='Sort menu items'
             value={sortBy}
+            className='h-9 rounded-lg border border-input bg-transparent px-3 text-xs outline-none'
             onChange={(event) =>
               onSortChange(event.target.value as MenuSortOption)
             }
@@ -75,22 +80,18 @@ export default function MenuFilters({
         </label>
       </div>
 
-      <div className='menu-filter-bottom'>
-        <div className='menu-filter-categories' aria-label='Menu categories'>
+      <div className='mt-4 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between'>
+        <div className='flex flex-wrap gap-2' aria-label='Menu categories'>
           {categories.map((category) => (
-            <button
-              className={
-                activeCategory === category.slug ?
-                  'menu-category menu-category--active'
-                : 'menu-category'
-              }
+            <Button
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${activeCategory === category.slug ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-background text-muted-foreground hover:bg-muted'}`}
               type='button'
               key={category.slug}
               onClick={() => onCategoryChange(category.slug)}
               aria-pressed={activeCategory === category.slug}
             >
               {category.label}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -101,14 +102,15 @@ export default function MenuFilters({
           </span>
 
           {hasActiveFilters ?
-            <button
-              className='menu-clear-filters'
+            <Button
+              variant='ghost'
+              size='sm'
               type='button'
               onClick={onClear}
             >
               Clear filters
               <X aria-hidden='true' />
-            </button>
+            </Button>
           : null}
         </div>
       </div>

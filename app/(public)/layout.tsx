@@ -12,7 +12,7 @@ export default function PublicLayout({
     <>
       <SiteHeader />
 
-      <main className='public-main'>{children}</main>
+      <main className='min-h-[60vh]'>{children}</main>
 
       <SiteFooter />
     </>

@@ -9,6 +9,7 @@ export type DashboardMetric = {
   detail: string;
   icon: LucideIcon;
   tone: DashboardMetricTone;
+  href: string;
 };
 
 export type RevenuePoint = {

@@ -18,10 +18,10 @@ export const revenuePoints: RevenuePoint[] = [
 ];
 
 export const metrics: DashboardMetric[] = [
-  { label: 'Total revenue', value: 'P 284,620', change: '+12.5%', detail: 'vs. last month', icon: WalletCards, tone: 'green' },
-  { label: 'Total orders', value: '1,842', change: '+8.2%', detail: 'vs. last month', icon: ShoppingBag, tone: 'amber' },
-  { label: 'New customers', value: '326', change: '+16.4%', detail: 'vs. last month', icon: Users, tone: 'blue' },
-  { label: 'Avg. order value', value: 'P 154.50', change: '+3.7%', detail: 'vs. last month', icon: TrendingUp, tone: 'rose' },
+  { label: 'Total revenue', value: 'P 284,620', change: '+12.5%', detail: 'vs. last month', icon: WalletCards, tone: 'green', href: '/admin/reports' },
+  { label: 'Total orders', value: '1,842', change: '+8.2%', detail: 'vs. last month', icon: ShoppingBag, tone: 'amber', href: '/admin/orders' },
+  { label: 'New customers', value: '326', change: '+16.4%', detail: 'vs. last month', icon: Users, tone: 'blue', href: '/admin/customers' },
+  { label: 'Avg. order value', value: 'P 154.50', change: '+3.7%', detail: 'vs. last month', icon: TrendingUp, tone: 'rose', href: '/admin/payments' },
 ];
 
 export const orders: DashboardOrder[] = [
