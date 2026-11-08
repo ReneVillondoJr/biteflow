@@ -3,13 +3,7 @@
 import { CalendarDays } from 'lucide-react';
 import { useDateRange } from '../hooks/use-date-range';
 import { dashboardSchema } from '../schema';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { SelectMenu } from '@/components/select';
 
 export default function Heading() {
   const dateRange = useDateRange(dashboardSchema.revenuePeriods);
@@ -22,19 +16,14 @@ export default function Heading() {
         <p className='mt-1.5 text-[13px] text-[#7d887d]'>Here is what is happening with BiteFlow today.</p>
       </div>
 
-      <Select value={dateRange.selected} onValueChange={(value) => dateRange.select(String(value))}>
-        <SelectTrigger className='h-11 rounded-xl border-border bg-card px-3 shadow-sm'>
-          <CalendarDays aria-hidden='true' />
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {dashboardSchema.revenuePeriods.map((option) => (
-            <SelectItem key={option} value={option}>
-              {option}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <SelectMenu
+        value={dateRange.selected}
+        options={dashboardSchema.revenuePeriods}
+        onChange={dateRange.select}
+        icon={CalendarDays}
+        label='Select dashboard date range'
+        className='h-11'
+      />
     </div>
   );
 }

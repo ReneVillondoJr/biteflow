@@ -11,8 +11,8 @@ export default function Metrics() {
         const Icon = metric.icon;
         return (
           <Link href={metric.href} key={metric.label}>
-          <Card className='relative min-h-24 grid grid-cols-[44px_1fr] items-center gap-3 rounded-xl border-border p-3.5 shadow-sm transition-transform hover:-translate-y-0.5'>
-            <div className={`flex size-11 items-center justify-center rounded-xl ${metric.tone === 'green' ? 'bg-emerald-50 text-emerald-700' : metric.tone === 'amber' ? 'bg-amber-100 text-amber-700' : metric.tone === 'blue' ? 'bg-sky-50 text-sky-700' : 'bg-rose-50 text-rose-700'}`}>
+          <Card className='relative min-h-24 grid grid-cols-[44px_1fr] items-center gap-3 rounded-md border-border p-3.5 shadow-sm transition-transform hover:-translate-y-0.5'>
+            <div className={`flex size-11 items-center justify-center rounded-md ${metric.tone === 'green' ? 'bg-emerald-50 text-emerald-700' : metric.tone === 'amber' ? 'bg-amber-100 text-amber-700' : metric.tone === 'blue' ? 'bg-sky-50 text-sky-700' : 'bg-rose-50 text-rose-700'}`}>
               <Icon aria-hidden='true' />
             </div>
             <div className='grid min-w-0'>

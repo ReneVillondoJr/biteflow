@@ -23,7 +23,7 @@ export default function AdminModulePage({
 }: ModulePageProps) {
   return (
     <div className='grid min-h-[520px] place-items-center'>
-      <Card className='w-full max-w-lg rounded-2xl border-border bg-card p-8 text-center shadow-[0_18px_50px_rgba(32,46,37,.05)]'>
+      <Card className='w-full max-w-lg rounded-md border-border bg-card p-8 text-center shadow-[0_18px_50px_rgba(32,46,37,.05)]'>
         <span className='mx-auto flex size-14 items-center justify-center rounded-[18px_18px_18px_6px] bg-primary/10 text-primary'>
           <Icon className='size-6' aria-hidden='true' />
         </span>
@@ -31,7 +31,7 @@ export default function AdminModulePage({
         <h1 className='mt-1 font-heading text-3xl font-normal tracking-tight'>{title}</h1>
         <p className='mx-auto mt-3 max-w-sm text-sm leading-6 text-muted-foreground'>{description}</p>
         {primaryAction && (
-          <Button className='mt-6 rounded-full' render={<Link href={primaryAction.href} />}>
+          <Button className='mt-6 rounded-md' render={<Link href={primaryAction.href} />}>
             {primaryAction.label}
             <ArrowRight className='size-4' aria-hidden='true' />
           </Button>

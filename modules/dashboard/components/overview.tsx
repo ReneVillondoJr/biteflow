@@ -20,7 +20,7 @@ export default function Overview() {
 
   return (
     <section className='mb-4 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,2fr)_240px]'>
-      <Card className='rounded-xl border-border shadow-sm'>
+      <Card className='rounded-md border-border shadow-sm'>
         <div className='flex min-h-14 items-center justify-between border-b border-border px-4'>
           <div className='grid'><span className='text-[10px] font-extrabold uppercase tracking-wide text-muted-foreground'>Revenue overview</span><strong className='mt-1 font-heading text-xl font-normal'>P 284,620</strong></div>
           <DropdownMenu>
@@ -62,7 +62,7 @@ export default function Overview() {
         </div>
       </Card>
 
-      <Card className='rounded-xl border-border shadow-sm'>
+      <Card className='rounded-md border-border shadow-sm'>
         <div className='flex min-h-16 items-center justify-between border-b border-border px-4'>
           <div><span className='text-[10px] font-extrabold uppercase tracking-wide text-muted-foreground'>Orders status</span></div>
           <DropdownMenu>

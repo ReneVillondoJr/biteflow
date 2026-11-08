@@ -27,7 +27,7 @@ export default function RecentOrders() {
   };
 
   return (
-    <Card className='min-w-0 overflow-hidden rounded-xl border-border shadow-sm'>
+    <Card className='min-w-0 overflow-hidden rounded-md border-border shadow-sm'>
       <div className='flex min-h-14 items-center justify-between border-b border-border px-4'>
         <div className='grid'><span className='text-[10px] font-extrabold uppercase tracking-wide text-muted-foreground'>Recent orders</span><strong className='mt-1 text-sm'>Live activity</strong></div>
         <Link className='flex items-center gap-1 text-[10px] font-extrabold text-primary' href='/admin/orders'>View all <ArrowUpRight className='size-3' aria-hidden='true' /></Link>

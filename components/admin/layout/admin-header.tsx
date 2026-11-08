@@ -39,12 +39,12 @@ export default function AdminHeader() {
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className='h-10 w-full rounded-[10px] border border-[#e1e5dc] bg-white pl-9 pr-3 text-[12px] outline-none transition-shadow placeholder:text-[#a0a79e] focus:border-[#aab99d] focus:ring-4 focus:ring-[#b9c9a7]/20'
+          className='h-10 w-full rounded-md border border-[#dde3da] bg-white pl-9 pr-3 text-[12px] outline-none placeholder:text-[#9da59c] focus:border-[#dde3da] focus:bg-white'
           placeholder='Search admin modules'
           aria-label='Search admin modules'
         />
         {query && (
-          <div className='absolute left-0 right-0 top-[46px] rounded-xl border border-[#e4e8df] bg-white p-1.5 shadow-[0_16px_40px_rgba(32,46,37,0.12)]'>
+          <div className='absolute left-0 right-0 top-[46px] rounded-md border border-[#e4e8df] bg-white p-1.5 shadow-[0_16px_40px_rgba(32,46,37,0.12)]'>
             {results.length ? results.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setQuery('')} className='flex h-9 items-center rounded-lg px-3 text-[12px] font-semibold text-[#5e695f] hover:bg-[#f1f4ed] hover:text-[#20372c]'>
                 {item.label}
@@ -55,28 +55,28 @@ export default function AdminHeader() {
       </div>
 
       <div className='flex items-center gap-2'>
-        <div className='hidden items-center gap-1.5 rounded-full border border-[#dce6d5] bg-[#f4f7ef] px-2.5 py-1.5 text-[9px] font-black text-[#53704f] sm:flex'>
+        <div className='hidden items-center gap-1.5 rounded-md border border-[#dce6d5] bg-[#f4f7ef] px-2.5 py-1.5 text-[9px] font-black text-[#53704f] sm:flex'>
           <ShieldCheck className='size-3.5' aria-hidden='true' />
           Secure
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger className='relative flex size-10 items-center justify-center rounded-[10px] border border-[#e3e7df] bg-white text-[#627064] shadow-sm outline-none hover:bg-[#f4f6f1]'>
+          <DropdownMenuTrigger className='relative flex size-10 items-center justify-center rounded-md border border-[#e3e7df] bg-white text-[#627064] shadow-sm outline-none hover:bg-[#f4f6f1]'>
             <Bell className='size-4' aria-hidden='true' />
             <span className='absolute right-2 top-2 size-1.5 rounded-full bg-[#e2a65b] ring-2 ring-white' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-72 rounded-xl'>
+          <DropdownMenuContent align='end' className='w-72 rounded-md'>
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
             <DropdownMenuItem>3 new orders need review</DropdownMenuItem>
             <DropdownMenuItem>Kitchen queue is running normally</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
-          <DropdownMenuTrigger className='flex h-10 items-center gap-2 rounded-[10px] border border-[#e3e7df] bg-white px-2 pr-2.5 shadow-sm outline-none hover:bg-[#f4f6f1]'>
-            <span className='flex size-7 items-center justify-center rounded-[8px] bg-[#e8efdf] text-[#3c6048]'><UserRound className='size-4' /></span>
+          <DropdownMenuTrigger className='flex h-10 items-center gap-2 rounded-md border border-[#e3e7df] bg-white px-2 pr-2.5 shadow-sm outline-none hover:bg-[#f4f6f1]'>
+            <span className='flex size-7 items-center justify-center rounded-md bg-[#e8efdf] text-[#3c6048]'><UserRound className='size-4' /></span>
             <span className='hidden text-left md:block'><strong className='block text-[11px] leading-none'>Administrator</strong><small className='mt-1 block text-[9px] text-[#90988f]'>Manager</small></span>
             <ChevronDown className='hidden size-3.5 text-[#9aa298] md:block' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-48 rounded-xl'>
+          <DropdownMenuContent align='end' className='w-48 rounded-md'>
             <DropdownMenuItem><Link href='/admin/settings' className='w-full'>Account settings</Link></DropdownMenuItem>
             <DropdownMenuItem><Link href='/admin/activity-logs' className='w-full'>Activity logs</Link></DropdownMenuItem>
           </DropdownMenuContent>
