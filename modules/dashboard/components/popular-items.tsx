@@ -27,9 +27,13 @@ export default function PopularItems() {
           >
             <MoreHorizontal />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuItem onClick={() => router.push('/admin/menu')}>Manage menu</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push('/admin/inventory')}>Check inventory</DropdownMenuItem>
+          <DropdownMenuContent
+            align='end'
+            sideOffset={0}
+            className='w-44 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'
+          >
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4] focus:text-[#263b30]' onClick={() => router.push('/admin/menu')}>Manage menu</DropdownMenuItem>
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4] focus:text-[#263b30]' onClick={() => router.push('/admin/inventory')}>Check inventory</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

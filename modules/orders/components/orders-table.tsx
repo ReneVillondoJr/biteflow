@@ -122,10 +122,15 @@ export default function OrdersTable({
                   <TableCell className='px-2' onClick={(event) => event.stopPropagation()}>
                     <DropdownMenu>
                       <DropdownMenuTrigger className='flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted' aria-label={`Actions for ${order.id}`}><MoreHorizontal className='size-4' /></DropdownMenuTrigger>
-                      <DropdownMenuContent align='end' className='w-44 rounded-md'>
-                        <DropdownMenuItem onClick={() => openOrder(order)}><Eye className='size-4' />View details</DropdownMenuItem>
+                      <DropdownMenuContent align='end' sideOffset={0} className='w-44 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'>
+                        <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4] focus:text-[#263b30]' onClick={() => openOrder(order)}><Eye className='size-4' />View details</DropdownMenuItem>
                         {orderSchema.statuses.map((nextStatus) => (
-                          <DropdownMenuItem key={nextStatus} disabled={order.status === nextStatus} onClick={() => onStatusUpdate(order.id, nextStatus)}>
+                          <DropdownMenuItem
+                            key={nextStatus}
+                            disabled={order.status === nextStatus}
+                            className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4] focus:text-[#263b30]'
+                            onClick={() => onStatusUpdate(order.id, nextStatus)}
+                          >
                             Set {nextStatus}
                           </DropdownMenuItem>
                         ))}

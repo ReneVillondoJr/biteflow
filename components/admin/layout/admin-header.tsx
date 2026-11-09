@@ -64,10 +64,10 @@ export default function AdminHeader() {
             <Bell className='size-4' aria-hidden='true' />
             <span className='absolute right-2 top-2 size-1.5 rounded-full bg-[#e2a65b] ring-2 ring-white' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-72 rounded-md'>
+          <DropdownMenuContent align='end' sideOffset={0} className='w-72 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'>
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuItem>3 new orders need review</DropdownMenuItem>
-            <DropdownMenuItem>Kitchen queue is running normally</DropdownMenuItem>
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'>3 new orders need review</DropdownMenuItem>
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'>Kitchen queue is running normally</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
@@ -76,9 +76,9 @@ export default function AdminHeader() {
             <span className='hidden text-left md:block'><strong className='block text-[11px] leading-none'>Administrator</strong><small className='mt-1 block text-[9px] text-[#90988f]'>Manager</small></span>
             <ChevronDown className='hidden size-3.5 text-[#9aa298] md:block' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-48 rounded-md'>
-            <DropdownMenuItem><Link href='/admin/settings' className='w-full'>Account settings</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link href='/admin/activity-logs' className='w-full'>Activity logs</Link></DropdownMenuItem>
+          <DropdownMenuContent align='end' sideOffset={0} className='w-48 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'>
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'><Link href='/admin/settings' className='w-full'>Account settings</Link></DropdownMenuItem>
+            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'><Link href='/admin/activity-logs' className='w-full'>Activity logs</Link></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

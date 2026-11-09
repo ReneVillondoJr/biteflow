@@ -22,7 +22,7 @@ export default function Heading() {
         onChange={dateRange.select}
         icon={CalendarDays}
         label='Select dashboard date range'
-        className='h-11'
+        className='h-10 w-auto min-w-[180px]'
       />
     </div>
   );

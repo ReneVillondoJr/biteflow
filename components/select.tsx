@@ -209,7 +209,7 @@ function SelectMenu<T extends string>({
       <SelectTrigger
         aria-label={label}
         className={cn(
-          "h-9 w-full min-w-32 gap-2 rounded-none border-[#dde3da] bg-white px-2.5 text-[11px] font-semibold text-[#526057] shadow-none transition-[border-color,background-color,box-shadow] hover:border-[#bfcabb] hover:bg-[#fbfcfa] focus-visible:border-[#91a78f] focus-visible:ring-3 focus-visible:ring-[#e5ebe2] data-popup-open:border-[#aebdab] data-popup-open:bg-white",
+          "h-10 min-w-44 gap-2 rounded-none border-[#dfe4dc] bg-white px-3 text-[12px] font-semibold text-[#526057] shadow-none transition-colors hover:border-[#cbd3c8] hover:bg-white focus-visible:border-[#dfe4dc] focus-visible:ring-0 data-popup-open:border-[#b8c3b5] data-popup-open:bg-white",
           className
         )}
       >
@@ -224,13 +224,13 @@ function SelectMenu<T extends string>({
         sideOffset={0}
         align="start"
         alignItemWithTrigger={false}
-        className="!w-[var(--anchor-width)] !min-w-32 overflow-hidden rounded-none border-x border-b border-t-0 border-[#dfe4dc] bg-white p-0 shadow-[0_6px_16px_rgba(32,46,37,0.08)] ring-0"
+        className="!w-[var(--anchor-width)] !min-w-0 origin-top overflow-hidden rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0 transition-none data-open:animate-none data-closed:animate-none"
       >
         {options.map((option) => (
           <SelectItem
             key={option}
             value={option}
-            className="min-h-8 rounded-none px-2.5 pr-8 text-[11px] font-medium text-[#526057] focus:bg-[#f2f5ef] focus:text-[#263b30] data-selected:bg-[#edf2e9] data-selected:text-[#2e4635]"
+            className="min-h-9 rounded-none px-2.5 pr-8 text-[12px] font-medium text-[#526057] hover:bg-[#f5f6f4] focus:bg-[#f5f6f4] focus:text-[#263b30] data-selected:bg-[#f0f2ee] data-selected:text-[#263b30]"
           >
             {option}
           </SelectItem>
