@@ -31,9 +31,20 @@ export function useKitchen() {
   }, [tickets, query, station, status]);
 
   function updateStatus(id: string, nextStatus: KitchenStatus) {
-    setTickets((current) => current.map((ticket) => ticket.id === id
-      ? { ...ticket, status: nextStatus, held: false, startedAt: nextStatus === 'Queued' ? null : 1 }
-      : ticket));
+    setTickets((current) => current.map((ticket) => {
+      if (ticket.id !== id) return ticket;
+
+      const currentElapsed = ticket.elapsedSeconds + (ticket.startedAt ? clock : 0);
+      const completed = nextStatus === 'Completed';
+      return {
+        ...ticket,
+        status: nextStatus,
+        held: false,
+        elapsedSeconds: completed ? currentElapsed : ticket.elapsedSeconds,
+        startedAt: nextStatus === 'Queued' || completed ? null : 1,
+        completedAt: completed ? new Date().toISOString() : null,
+      };
+    }));
   }
 
   function toggleHeld(id: string) {
@@ -65,7 +76,10 @@ export function useKitchen() {
     queued: tickets.filter((ticket) => ticket.status === 'Queued').length,
     preparing: tickets.filter((ticket) => ticket.status === 'Preparing' && !ticket.held).length,
     ready: tickets.filter((ticket) => ticket.status === 'Ready').length,
-    priority: tickets.filter((ticket) => ticket.priority === 'Priority' && ticket.status !== 'Ready').length,
+    completed: tickets.filter((ticket) => ticket.status === 'Completed').length,
+    priority: tickets.filter((ticket) =>
+      ticket.priority === 'Priority' && ticket.status !== 'Ready' && ticket.status !== 'Completed'
+    ).length,
     held: tickets.filter((ticket) => ticket.held).length,
   };
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { Search, SlidersHorizontal, X } from 'lucide-react';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SelectMenu } from '@/components/select';
@@ -26,17 +25,39 @@ type KitchenBoardProps = {
 
 export default function KitchenBoard(props: KitchenBoardProps) {
   const { tickets, query, station, status } = props;
+  const columnStyles = {
+    Queued: {
+      marker: 'bg-[#a77b38]',
+      count: 'border-[#eadfc9] bg-[#faf6ed] text-[#876733]',
+      note: 'Awaiting preparation',
+    },
+    Preparing: {
+      marker: 'bg-[#527b62]',
+      count: 'border-[#d7e4d8] bg-[#f0f5ef] text-[#41614c]',
+      note: 'In progress',
+    },
+    Ready: {
+      marker: 'bg-[#6483a0]',
+      count: 'border-[#d9e2e9] bg-[#f0f4f7] text-[#58738a]',
+      note: 'Ready to serve',
+    },
+    Completed: {
+      marker: 'bg-[#879188]',
+      count: 'border-[#dfe4dc] bg-[#f4f6f2] text-[#697568]',
+      note: 'Handed off',
+    },
+  };
 
   return (
-    <Card className='rounded-md border-[#e2e6df] py-0 shadow-none'>
-      <div className='flex flex-col gap-3 border-b border-[#e2e6df] px-4 py-3 lg:flex-row lg:items-center lg:justify-between'>
+    <section>
+      <div className='mb-3 flex flex-col gap-3 border border-[#e2e6df] bg-white px-3 py-3 sm:px-4 lg:flex-row lg:items-center lg:justify-between'>
         <div className='relative w-full lg:w-[320px]'>
           <Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#9da59c]' />
           <Input
             value={query}
             onChange={(event) => props.onQueryChange(event.target.value)}
             placeholder='Search order, customer, or item'
-            className='h-10 border-[#dde2dc] bg-white pl-9 shadow-none focus-visible:border-[#dde2dc] focus-visible:ring-0'
+            className='h-9 border-[#e1e5de] bg-white pl-9 text-[12px] shadow-none placeholder:text-[#9da59c] focus-visible:border-[#e1e5de] focus-visible:ring-0'
           />
         </div>
         <div className='flex flex-wrap items-center gap-2'>
@@ -52,25 +73,33 @@ export default function KitchenBoard(props: KitchenBoardProps) {
             options={kitchenSchema.statusFilters}
             onChange={props.onStatusChangeFilter}
             label='Filter by ticket status'
+            className='h-9'
           />
           {(query || station !== 'All stations' || status !== 'All tickets') && (
-            <Button variant='ghost' size='sm' className='h-10 rounded-md px-2 text-[10px]' onClick={props.onClearFilters}>
+            <Button variant='ghost' size='sm' className='h-9 rounded-md px-2 text-[10px] text-[#697568]' onClick={props.onClearFilters}>
               <X className='size-3.5' />Clear
             </Button>
           )}
         </div>
       </div>
 
-      <div className='grid grid-cols-1 gap-3 p-3 xl:grid-cols-3'>
+      <div className='grid grid-cols-1 items-start gap-3 sm:grid-cols-2 2xl:grid-cols-4'>
         {kitchenSchema.statuses.map((columnStatus) => {
           const columnTickets = tickets.filter((ticket) => ticket.status === columnStatus);
+          const style = columnStyles[columnStatus];
           return (
-            <section key={columnStatus} className='min-w-0 border border-[#edf0ea] bg-[#fafbf8]'>
-              <header className='flex h-11 items-center justify-between border-b border-[#edf0ea] bg-white px-3'>
-                <strong className='text-[11px] font-black uppercase tracking-[0.08em] text-[#526057]'>{columnStatus}</strong>
-                <span className='flex size-6 items-center justify-center rounded-full bg-[#eef1eb] text-[10px] font-black text-[#697568]'>{columnTickets.length}</span>
+            <section key={columnStatus} className='min-w-0 border border-[#e2e6df] bg-[#f8f9f6]'>
+              <header className='flex items-center justify-between border-b border-[#e8ece5] bg-white px-3.5 py-3'>
+                <div className='flex items-center gap-2.5'>
+                  <span className={`h-7 w-1 ${style.marker}`} />
+                  <div>
+                    <strong className='block text-[11px] font-extrabold uppercase tracking-[0.08em] text-[#34443a]'>{columnStatus}</strong>
+                    <span className='mt-0.5 block text-[10px] text-[#929a91]'>{style.note}</span>
+                  </div>
+                </div>
+                <span className={`flex h-6 min-w-6 items-center justify-center border px-1.5 text-[10px] font-bold ${style.count}`}>{columnTickets.length}</span>
               </header>
-              <div className='grid max-h-[620px] gap-2 overflow-y-auto p-2'>
+              <div className='grid gap-2.5 p-2.5'>
                 {columnTickets.map((ticket) => (
                   <KitchenTicket
                     key={ticket.id}
@@ -82,13 +111,13 @@ export default function KitchenBoard(props: KitchenBoardProps) {
                   />
                 ))}
                 {!columnTickets.length && (
-                  <div className='grid min-h-28 place-items-center border border-dashed border-[#dfe4dc] bg-white text-[11px] text-[#9aa29a]'>No tickets</div>
+                  <div className='grid min-h-28 place-items-center border border-dashed border-[#d9ded6] bg-white text-[11px] text-[#9aa29a]'>No {columnStatus.toLowerCase()} tickets</div>
                 )}
               </div>
             </section>
           );
         })}
       </div>
-    </Card>
+    </section>
   );
 }

@@ -1,4 +1,4 @@
-export type KitchenStatus = 'Queued' | 'Preparing' | 'Ready';
+export type KitchenStatus = 'Queued' | 'Preparing' | 'Ready' | 'Completed';
 export type KitchenStation = 'Grill' | 'Fryer' | 'Drinks' | 'Assembly' | 'Dessert';
 export type KitchenPriority = 'Normal' | 'Priority';
 
@@ -19,6 +19,7 @@ export type KitchenTicket = {
   held: boolean;
   elapsedSeconds: number;
   startedAt: number | null;
+  completedAt: string | null;
   placedAt: string;
   items: KitchenItem[];
 };
