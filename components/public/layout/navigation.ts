@@ -14,6 +14,7 @@ export const publicHeaderNavigation: PublicNavigationItem[] = [
 export const publicMobileNavigation: PublicNavigationItem[] = [
   { label: 'Home', href: '/' },
   ...publicHeaderNavigation,
+  { label: 'Cart', href: '/cart' },
   { label: 'Reservations', href: '/reservations' },
   { label: 'My account', href: '/account' },
 ];

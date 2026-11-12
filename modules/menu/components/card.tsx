@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Clock3, Sparkles } from 'lucide-react';
 
 import type { MenuItem } from '../types/menu';
+import AddToCartButton from './add-to-cart-button';
 
 type MenuCardProps = {
   item: MenuItem;
@@ -73,6 +74,12 @@ export default function MenuCard({ item }: MenuCardProps) {
             <ArrowUpRight aria-hidden='true' />
           </Link>
         </div>
+
+        <AddToCartButton
+          slug={item.slug}
+          available={item.isAvailable}
+          className='mt-3 w-full'
+        />
       </div>
     </article>
   );

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import type { MenuItem } from '../types/menu';
+import AddToCartButton from './add-to-cart-button';
 
 type MenuItemDetailProps = {
   item: MenuItem;
@@ -93,6 +94,13 @@ export default function MenuItemDetail({ item }: MenuItemDetailProps) {
               </p>
 
               <div className='menu-detail-actions'>
+                <AddToCartButton
+                  slug={item.slug}
+                  available={item.isAvailable}
+                  className='button button--primary'
+                  showAddedLabel
+                />
+
                 <Link
                   className='button button--primary'
                   href='/menu#menu-catalog'

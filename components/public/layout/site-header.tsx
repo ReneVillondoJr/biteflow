@@ -7,12 +7,14 @@ import { ArrowUpRight, Menu as MenuIcon, ShoppingBag, UserRound } from 'lucide-r
 
 import { Brand } from '@/components/public/shared/brand';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/modules/cart/provider';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 import { publicHeaderNavigation, publicMobileNavigation } from './navigation';
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const { itemCount } = useCart();
 
   function isActive(href: string) {
     const routePath = href.split('#')[0];
@@ -43,6 +45,21 @@ export default function SiteHeader() {
         </nav>
 
         <div className='flex items-center gap-2'>
+          <Link
+            className='relative flex size-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted'
+            href='/cart'
+            aria-label={`Shopping cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`}
+            aria-current={pathname === '/cart' ? 'page' : undefined}
+            title='Shopping cart'
+          >
+            <ShoppingBag aria-hidden='true' />
+            {itemCount > 0 ?
+              <span className='absolute -right-1 -top-1 grid min-h-5 min-w-5 place-content-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground'>
+                {itemCount}
+              </span>
+            : null}
+          </Link>
+
           <Link
             className={
               `flex size-10 items-center justify-center rounded-full border border-border bg-card transition-colors hover:bg-muted ${pathname === '/account' || pathname.startsWith('/auth/') ? 'text-primary' : 'text-muted-foreground'}`
