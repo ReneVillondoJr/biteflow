@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
 
 import MenuItemDetail from '@/modules/menu/components/item-detail';
 import { getMenuItemBySlug, menuItems } from '@/modules/menu/data/menu';
@@ -38,21 +36,7 @@ export async function generateMetadata({
   };
 }
 
-async function MenuItemContent({ params }: MenuItemPageProps) {
+export default async function MenuItemPage({ params }: MenuItemPageProps) {
   const { slug } = await params;
-  const item = getMenuItemBySlug(slug);
-
-  if (!item) {
-    notFound();
-  }
-
-  return <MenuItemDetail item={item} />;
-}
-
-export default function MenuItemPage({ params }: MenuItemPageProps) {
-  return (
-    <Suspense fallback={null}>
-      <MenuItemContent params={params} />
-    </Suspense>
-  );
+  return <MenuItemDetail slug={slug} />;
 }

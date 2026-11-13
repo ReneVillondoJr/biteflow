@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import {
@@ -8,14 +10,41 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 
-import type { MenuItem } from '../types/menu';
+import { useMenuData } from '../data/store';
 import AddToCartButton from './add-to-cart-button';
 
 type MenuItemDetailProps = {
-  item: MenuItem;
+  slug: string;
 };
 
-export default function MenuItemDetail({ item }: MenuItemDetailProps) {
+export default function MenuItemDetail({ slug }: MenuItemDetailProps) {
+  const { data, hydrated } = useMenuData();
+  const item = data.items.find((menuItem) => menuItem.slug === slug);
+
+  if (!hydrated) {
+    return (
+      <div className='menu-detail-page'>
+        <div className='container' role='status'>
+          Loading dish…
+        </div>
+      </div>
+    );
+  }
+
+  if (!item) {
+    return (
+      <div className='menu-detail-page'>
+        <div className='container'>
+          <h1 className='menu-detail-title'>Dish not found</h1>
+          <Link className='menu-detail-back' href='/menu'>
+            <ArrowLeft aria-hidden='true' />
+            Back to the menu
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className='menu-detail-page'>

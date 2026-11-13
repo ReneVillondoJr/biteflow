@@ -80,6 +80,11 @@ export default function CartModule() {
                 <p className='mt-1 text-sm text-muted-foreground'>
                   {formatCartPrice(item.price)} each
                 </p>
+                {!item.isAvailable ?
+                  <p className='mt-1 text-xs font-semibold text-destructive'>
+                    This dish is no longer available. Remove it to continue.
+                  </p>
+                : null}
                 <div className='mt-3 flex items-center gap-2'>
                   <Button
                     type='button'

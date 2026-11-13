@@ -1,18 +1,15 @@
 'use client';
 
 import { useMenuFilters } from '../hooks/use-filters';
-import type { MenuData } from '../types/menu';
+import { useMenuData } from '../data/store';
 
 import MenuFilters from './filters';
 import MenuGrid from './grid';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
-type MenuCatalogProps = {
-  data: MenuData;
-};
-
-export default function MenuCatalog({ data }: MenuCatalogProps) {
+export default function MenuCatalog() {
+  const { data } = useMenuData();
   const {
     activeCategory,
     setActiveCategory,

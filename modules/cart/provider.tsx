@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   createContext,
   useContext,
   useEffect,
@@ -9,7 +10,8 @@ import {
   type ReactNode,
 } from 'react';
 
-import { menuItems } from '@/modules/menu/data/menu';
+import { useMenuData } from '@/modules/menu/data/store';
+import type { MenuItem } from '@/modules/menu/types/menu';
 
 import { cartSchema, type CartLine } from './schema';
 
@@ -18,7 +20,7 @@ const cartStorageKey = 'biteflow_cart';
 type CartItem = {
   slug: string;
   quantity: number;
-  item: (typeof menuItems)[number];
+  item: MenuItem;
   lineTotal: number;
 };
 
@@ -69,7 +71,7 @@ function publish(nextSnapshot: CartSnapshot) {
   listeners.forEach((listener) => listener());
 }
 
-function initializeCart() {
+function initializeCart(menuItems: MenuItem[]) {
   if (snapshot.hydrated) {
     return;
   }
@@ -118,29 +120,6 @@ function persistLines(lines: CartLine[]) {
   publish({ lines, storageError, hydrated: true });
 }
 
-function addItem(slug: string, quantity = 1) {
-  const item = menuItems.find((menuItem) => menuItem.slug === slug);
-
-  if (!item || !item.isAvailable) {
-    throw new Error('This menu item is not available to add to your cart.');
-  }
-  if (!Number.isInteger(quantity) || quantity < 1) {
-    throw new RangeError('Cart quantity must be a positive whole number.');
-  }
-
-  const existingLine = snapshot.lines.find((line) => line.slug === slug);
-  const lines =
-    existingLine ?
-      snapshot.lines.map((line) =>
-        line.slug === slug ?
-          { ...line, quantity: line.quantity + quantity }
-        : line,
-      )
-    : [...snapshot.lines, { slug, quantity }];
-
-  persistLines(lines);
-}
-
 function setQuantity(slug: string, quantity: number) {
   if (!Number.isInteger(quantity) || quantity < 1) {
     throw new RangeError('Cart quantity must be a positive whole number.');
@@ -164,6 +143,7 @@ function clearCart() {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const menuSnapshot = useMenuData();
   const cartSnapshot = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -171,13 +151,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    initializeCart();
-  }, []);
+    if (menuSnapshot.hydrated) {
+      initializeCart(menuSnapshot.data.items);
+    }
+  }, [menuSnapshot.data.items, menuSnapshot.hydrated]);
 
   const items = useMemo(
     () =>
       cartSnapshot.lines.flatMap((line) => {
-        const item = menuItems.find((menuItem) => menuItem.slug === line.slug);
+        const currentItem = menuSnapshot.data.items.find(
+          (menuItem) => menuItem.slug === line.slug,
+        );
+        const item =
+          currentItem ??
+          (line.snapshot ? { ...line.snapshot, isAvailable: false } : null);
 
         return item ?
             [{
@@ -187,24 +174,64 @@ export function CartProvider({ children }: { children: ReactNode }) {
             }]
           : [];
       }),
-    [cartSnapshot.lines],
+    [cartSnapshot.lines, menuSnapshot.data.items],
   );
   const itemCount = items.reduce((total, line) => total + line.quantity, 0);
   const subtotal = items.reduce((total, line) => total + line.lineTotal, 0);
+  const addItem = useCallback(
+    (slug: string, quantity = 1) => {
+      const item = menuSnapshot.data.items.find(
+        (menuItem) => menuItem.slug === slug,
+      );
+
+      if (!item || !item.isAvailable) {
+        throw new Error('This menu item is not available to add to your cart.');
+      }
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        throw new RangeError('Cart quantity must be a positive whole number.');
+      }
+
+      const existingLine = cartSnapshot.lines.find((line) => line.slug === slug);
+      const lines =
+        existingLine ?
+          cartSnapshot.lines.map((line) =>
+            line.slug === slug ?
+              {
+                ...line,
+                quantity: line.quantity + quantity,
+                snapshot: item,
+              }
+            : line,
+          )
+        : [...cartSnapshot.lines, { slug, quantity, snapshot: item }];
+
+      persistLines(lines);
+    },
+    [cartSnapshot.lines, menuSnapshot.data.items],
+  );
 
   const value = useMemo(
     () => ({
       items,
       itemCount,
       subtotal,
-      hydrated: cartSnapshot.hydrated,
-      storageError: cartSnapshot.storageError,
+      hydrated: cartSnapshot.hydrated && menuSnapshot.hydrated,
+      storageError: cartSnapshot.storageError ?? menuSnapshot.storageError,
       addItem,
       setQuantity,
       removeItem,
       clearCart,
     }),
-    [cartSnapshot.hydrated, cartSnapshot.storageError, itemCount, items, subtotal],
+    [
+      addItem,
+      cartSnapshot.hydrated,
+      cartSnapshot.storageError,
+      itemCount,
+      items,
+      menuSnapshot.hydrated,
+      menuSnapshot.storageError,
+      subtotal,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
