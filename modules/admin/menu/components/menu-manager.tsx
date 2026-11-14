@@ -155,6 +155,19 @@ function MenuItemForm({
         </label>
       </div>
 
+      <label className={labelClassName} htmlFor='dish-image'>
+        Image URL
+        <Input
+          id='dish-image'
+          name='image'
+          type='url'
+          defaultValue={item?.image ?? ''}
+          placeholder='https://example.com/dish.jpg'
+          required
+          className={fieldClassName}
+        />
+      </label>
+
       <label className={labelClassName} htmlFor='dish-description'>
         Description
         <textarea

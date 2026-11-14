@@ -27,14 +27,14 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className='sticky top-0 z-40 border-b border-border/80 bg-background/95 backdrop-blur'>
-      <div className='mx-auto flex h-[72px] w-full max-w-[1200px] items-center justify-between px-4 md:px-6'>
+    <header className='sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur-xl'>
+      <div className='mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between px-4 md:px-8'>
         <Brand />
 
         <nav className='hidden items-center gap-1 lg:flex' aria-label='Main navigation'>
           {publicHeaderNavigation.map((item) => (
             <Link
-              className={`rounded-lg px-3 py-2 text-xs font-bold transition-colors hover:bg-muted ${isActive(item.href) ? 'bg-primary/8 text-primary' : 'text-muted-foreground'}`}
+              className={`rounded-full px-3.5 py-2.5 text-xs font-semibold transition-colors hover:bg-muted ${isActive(item.href) ? 'bg-secondary text-secondary-foreground' : 'text-muted-foreground'}`}
               href={item.href}
               key={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
@@ -46,7 +46,7 @@ export default function SiteHeader() {
 
         <div className='flex items-center gap-2'>
           <Link
-            className='relative flex size-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted'
+            className='relative flex size-10 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground transition-colors hover:bg-muted'
             href='/cart'
             aria-label={`Shopping cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`}
             aria-current={pathname === '/cart' ? 'page' : undefined}
@@ -62,7 +62,7 @@ export default function SiteHeader() {
 
           <Link
             className={
-              `flex size-10 items-center justify-center rounded-full border border-border bg-card transition-colors hover:bg-muted ${pathname === '/account' || pathname.startsWith('/auth/') ? 'text-primary' : 'text-muted-foreground'}`
+              `flex size-10 items-center justify-center rounded-xl border border-border/80 bg-card transition-colors hover:bg-muted ${pathname === '/account' || pathname.startsWith('/auth/') ? 'text-primary' : 'text-muted-foreground'}`
             }
             href='/account'
             aria-label='My account'
@@ -72,7 +72,7 @@ export default function SiteHeader() {
             <UserRound aria-hidden='true' />
           </Link>
 
-          <Link className='hidden items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-extrabold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:flex' href='/menu#menu-catalog'>
+          <Link className='hidden items-center gap-2 rounded-xl bg-primary px-4 py-3 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:bg-primary/90 sm:flex' href='/menu#menu-catalog'>
             <ShoppingBag aria-hidden='true' />
 
             <span>Order online</span>

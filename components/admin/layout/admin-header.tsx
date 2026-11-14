@@ -28,10 +28,10 @@ export default function AdminHeader() {
     : [];
 
   return (
-    <header className='sticky top-0 z-30 flex h-[68px] items-center justify-between border-b border-[#e8ebe4] bg-[#fbfcf9]/95 px-4 backdrop-blur-xl md:px-7'>
+    <header className='sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-border/80 bg-background/90 px-4 backdrop-blur-xl md:px-8'>
       <div className='min-w-0'>
-        <span className='block text-[9px] font-black uppercase tracking-[0.18em] text-[#7f897f]'>Workspace</span>
-        <strong className='mt-0.5 block text-[15px] font-bold tracking-tight text-[#20372c]'>{pageName}</strong>
+        <span className='block text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground'>Workspace</span>
+        <strong className='mt-0.5 block text-[15px] font-semibold tracking-tight text-foreground'>{pageName}</strong>
       </div>
 
       <div className='relative hidden w-[280px] md:block'>
@@ -39,14 +39,14 @@ export default function AdminHeader() {
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className='h-10 w-full rounded-md border border-[#dde3da] bg-white pl-9 pr-3 text-[12px] outline-none placeholder:text-[#9da59c] focus:border-[#dde3da] focus:bg-white'
+          className='h-10 w-full rounded-xl border border-input bg-card pl-9 pr-3 text-[12px] outline-none placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/15'
           placeholder='Search admin modules'
           aria-label='Search admin modules'
         />
         {query && (
-          <div className='absolute left-0 right-0 top-[46px] rounded-md border border-[#e4e8df] bg-white p-1.5 shadow-[0_16px_40px_rgba(32,46,37,0.12)]'>
+          <div className='absolute left-0 right-0 top-[46px] rounded-xl border border-border bg-card p-1.5 shadow-lg'>
             {results.length ? results.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setQuery('')} className='flex h-9 items-center rounded-lg px-3 text-[12px] font-semibold text-[#5e695f] hover:bg-[#f1f4ed] hover:text-[#20372c]'>
+              <Link key={item.href} href={item.href} onClick={() => setQuery('')} className='flex h-9 items-center rounded-lg px-3 text-[12px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground'>
                 {item.label}
               </Link>
             )) : <div className='px-3 py-2 text-[12px] text-[#97a096]'>No matching modules</div>}
@@ -55,30 +55,30 @@ export default function AdminHeader() {
       </div>
 
       <div className='flex items-center gap-2'>
-        <div className='hidden items-center gap-1.5 rounded-md border border-[#dce6d5] bg-[#f4f7ef] px-2.5 py-1.5 text-[9px] font-black text-[#53704f] sm:flex'>
+          <div className='hidden items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1.5 text-[9px] font-bold text-secondary-foreground sm:flex'>
           <ShieldCheck className='size-3.5' aria-hidden='true' />
           Secure
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger className='relative flex size-10 items-center justify-center rounded-md border border-[#e3e7df] bg-white text-[#627064] shadow-sm outline-none hover:bg-[#f4f6f1]'>
+          <DropdownMenuTrigger className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
             <Bell className='size-4' aria-hidden='true' />
             <span className='absolute right-2 top-2 size-1.5 rounded-full bg-[#e2a65b] ring-2 ring-white' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' sideOffset={0} className='w-72 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'>
+          <DropdownMenuContent align='end' sideOffset={6} className='w-72 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'>3 new orders need review</DropdownMenuItem>
-            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'>Kitchen queue is running normally</DropdownMenuItem>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'>3 new orders need review</DropdownMenuItem>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'>Kitchen queue is running normally</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
-          <DropdownMenuTrigger className='flex h-10 items-center gap-2 rounded-md border border-[#e3e7df] bg-white px-2 pr-2.5 shadow-sm outline-none hover:bg-[#f4f6f1]'>
-            <span className='flex size-7 items-center justify-center rounded-md bg-[#e8efdf] text-[#3c6048]'><UserRound className='size-4' /></span>
+          <DropdownMenuTrigger className='flex h-10 items-center gap-2 rounded-xl border border-border bg-card px-2 pr-2.5 outline-none transition-colors hover:bg-muted'>
+            <span className='flex size-7 items-center justify-center rounded-lg bg-secondary text-secondary-foreground'><UserRound className='size-4' /></span>
             <span className='hidden text-left md:block'><strong className='block text-[11px] leading-none'>Administrator</strong><small className='mt-1 block text-[9px] text-[#90988f]'>Manager</small></span>
-            <ChevronDown className='hidden size-3.5 text-[#9aa298] md:block' />
+            <ChevronDown className='hidden size-3.5 text-muted-foreground md:block' />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' sideOffset={0} className='w-48 rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0'>
-            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'><Link href='/admin/settings' className='w-full'>Account settings</Link></DropdownMenuItem>
-            <DropdownMenuItem className='rounded-none px-2.5 py-2 text-[12px] focus:bg-[#f5f6f4]'><Link href='/admin/activity-logs' className='w-full'>Activity logs</Link></DropdownMenuItem>
+          <DropdownMenuContent align='end' sideOffset={6} className='w-48 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'><Link href='/admin/settings' className='w-full'>Account settings</Link></DropdownMenuItem>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'><Link href='/admin/activity-logs' className='w-full'>Activity logs</Link></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

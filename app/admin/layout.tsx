@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   if (isLogin) return <>{children}</>;
 
   return (
-    <div className='min-h-screen bg-[#f4f6f1] text-foreground'>
+    <div className='min-h-screen bg-muted/60 text-foreground'>
       <AdminSidebar pathname={pathname} onSignOut={signOut} />
       <main className='min-h-screen min-w-0 lg:ml-[256px]'>
         <AdminHeader />

@@ -1,6 +1,5 @@
-import { Boxes } from 'lucide-react';
-import AdminModulePage from '@/components/admin/shared/module-page';
+import InventoryModule from '@/modules/inventory';
 
 export default function Page() {
-  return <AdminModulePage title='Inventory' description='Monitor stock levels, supplies, availability, and replenishment needs.' icon={Boxes} />;
+  return <InventoryModule />;
 }
