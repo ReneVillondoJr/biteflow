@@ -1,7 +1,7 @@
  'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Bell, ChevronDown, Search, ShieldCheck, UserRound } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
@@ -16,7 +16,9 @@ import {
 
 export default function AdminHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const [query, setQuery] = useState('');
+  const [unreadNotifications, setUnreadNotifications] = useState(['orders', 'stock']);
 
   const pageName = useMemo(() => {
     const item = adminNavigationGroups.flatMap((group) => group.items).find((nav) => pathname === nav.href || pathname.startsWith(`${nav.href}/`));
@@ -26,6 +28,11 @@ export default function AdminHeader() {
   const results = query.trim()
     ? adminNavigationGroups.flatMap((group) => group.items).filter((item) => item.label.toLowerCase().includes(query.trim().toLowerCase())).slice(0, 5)
     : [];
+
+  function openNotification(id: string, href: string) {
+    setUnreadNotifications((current) => current.filter((notificationId) => notificationId !== id));
+    router.push(href);
+  }
 
   return (
     <header className='sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-border/80 bg-background/90 px-4 backdrop-blur-xl md:px-8'>
@@ -60,14 +67,22 @@ export default function AdminHeader() {
           Secure
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
+          <DropdownMenuTrigger aria-label={`Notifications${unreadNotifications.length ? `, ${unreadNotifications.length} unread` : ''}`} className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
             <Bell className='size-4' aria-hidden='true' />
-            <span className='absolute right-2 top-2 size-1.5 rounded-full bg-[#e2a65b] ring-2 ring-white' />
+            {unreadNotifications.length > 0 ? <span className='absolute right-2 top-2 size-2 rounded-full bg-[#c78336] ring-2 ring-white' aria-hidden='true' /> : null}
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' sideOffset={6} className='w-72 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'>3 new orders need review</DropdownMenuItem>
-            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]'>Kitchen queue is running normally</DropdownMenuItem>
+            <div className='flex items-center justify-between px-2.5 py-1'>
+              <DropdownMenuLabel className='px-0'>Notifications</DropdownMenuLabel>
+              {unreadNotifications.length ? <button type='button' className='text-[10px] font-semibold text-muted-foreground hover:text-foreground' onClick={() => setUnreadNotifications([])}>Mark all read</button> : null}
+            </div>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => openNotification('orders', '/admin/orders')}>
+              <span className={`mt-1 size-1.5 shrink-0 rounded-full ${unreadNotifications.includes('orders') ? 'bg-[#c78336]' : 'bg-transparent'}`} aria-hidden='true' /><span><strong className='block font-semibold'>Review incoming orders</strong><small className='text-muted-foreground'>Open the order queue</small></span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => openNotification('stock', '/admin/inventory')}>
+              <span className={`mt-1 size-1.5 shrink-0 rounded-full ${unreadNotifications.includes('stock') ? 'bg-[#c78336]' : 'bg-transparent'}`} aria-hidden='true' /><span><strong className='block font-semibold'>Check stock levels</strong><small className='text-muted-foreground'>Review inventory alerts</small></span>
+            </DropdownMenuItem>
+            {!unreadNotifications.length ? <p className='px-3 py-2 text-[11px] text-muted-foreground'>You’re all caught up.</p> : null}
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>

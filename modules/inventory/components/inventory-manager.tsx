@@ -36,7 +36,7 @@ function ItemForm({ item, onSave, onClose }: { item: InventoryItem | null; onSav
       <label className='grid gap-1.5 text-xs font-semibold'>Cost per unit (₱)<Input className={field} name='unitCost' type='number' min='0' step='0.01' defaultValue={item?.unitCost ?? 0} required /></label>
     </div>
     {error ? <p role='alert' className='text-sm text-destructive'>{error}</p> : null}
-    <DialogFooter><Button type='button' variant='outline' onClick={onClose}>Cancel</Button><Button type='submit'>{item ? 'Save changes' : 'Add item'}</Button></DialogFooter>
+    <DialogFooter><Button type='button' variant='outline' onClick={onClose}>Cancel</Button><Button type='submit' variant={item ? 'default' : 'soft'}>{item ? 'Save changes' : 'Add item'}</Button></DialogFooter>
   </form>;
 }
 
@@ -50,7 +50,7 @@ export default function InventoryManager({ inventory }: Props) {
   function closeForm() { setOpen(false); setEditing(null); }
   if (!inventory.hydrated) return <div className='grid min-h-80 place-items-center' role='status'>Loading inventory…</div>;
   return <div className='mx-auto w-full max-w-[1240px] py-3 md:py-4'>
-    <div className='mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end'><div><span className='mb-1 block text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground'>Stock management</span><h1 className='text-[30px] font-semibold leading-tight tracking-[-0.04em] text-foreground md:text-[38px]'>Inventory</h1><p className='mt-1.5 text-[13px] text-muted-foreground'>Track ingredients, stock levels, and replenishment needs.</p></div><Button className='h-10 rounded-xl px-4 shadow-sm' onClick={() => openForm()}><PackagePlus className='size-4' /> Add inventory item</Button></div>
+    <div className='mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end'><div><span className='mb-1 block text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground'>Stock management</span><h1 className='text-[30px] font-semibold leading-tight tracking-[-0.04em] text-foreground md:text-[38px]'>Inventory</h1><p className='mt-1.5 text-[13px] text-muted-foreground'>Track ingredients, stock levels, and replenishment needs.</p></div><Button variant='soft' className='h-10 px-4 font-semibold shadow-sm' onClick={() => openForm()}><PackagePlus className='size-4' /> Add inventory item</Button></div>
     {inventory.storageError ? <p className='mb-4 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900' role='alert'>{inventory.storageError}</p> : null}
     {inventory.notice ? <p className='mb-4 rounded-md border border-border bg-card p-3 text-sm' role='status'>{inventory.notice}<Button type='button' variant='ghost' size='sm' className='ml-2 h-7' onClick={() => inventory.setNotice(null)} aria-label='Dismiss inventory message'>×</Button></p> : null}
     <div className='mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4'>

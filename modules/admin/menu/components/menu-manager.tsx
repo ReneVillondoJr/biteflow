@@ -330,7 +330,7 @@ export default function MenuManager({ menu }: MenuManagerProps) {
             View customer menu
             <ExternalLink className='size-4' aria-hidden='true' />
           </Button>
-          <Button className='h-10 rounded-md px-3 text-[11px]' onClick={openCreateDialog}>
+          <Button variant='soft' className='h-10 px-3 text-[11px]' onClick={openCreateDialog}>
             <Plus className='size-4' aria-hidden='true' />
             Add dish
           </Button>

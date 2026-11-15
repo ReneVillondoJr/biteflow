@@ -28,7 +28,7 @@
   --accent-soft: #f3ebdc;
   --border: #e3e9e3;
   --input: #d9e2da;
-  --ring: #a98550;
+  --ring: #728477;
   --destructive: #b5473a;
 
   --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -129,8 +129,8 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 3px solid rgba(214, 161, 93, 0.85);
-  outline-offset: 4px;
+  outline: 2px solid rgba(82, 105, 88, 0.55);
+  outline-offset: 2px;
 }
 
 img {
@@ -248,7 +248,7 @@ img {
   gap: 10px;
   padding: 0 21px;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: 7px;
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
@@ -271,12 +271,12 @@ img {
 }
 
 .button--primary {
-  background: var(--primary);
+  background: #34443b;
   color: var(--primary-foreground);
 }
 
 .button--primary:hover {
-  background: var(--primary-hover);
+  background: #26372f;
 }
 
 .button--outline {
@@ -5718,7 +5718,7 @@ img {
 
 .contact-detail-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(157, 82, 54, 0.38);
+  border-color: rgba(82, 105, 88, 0.35);
   box-shadow: var(--shadow-soft);
 }
 
@@ -5826,7 +5826,7 @@ img {
 .contact-form-card select:focus,
 .contact-form-card textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(157, 82, 54, 0.1);
+  box-shadow: 0 0 0 3px rgba(82, 105, 88, 0.14);
 }
 
 .contact-submit {
@@ -6043,6 +6043,12 @@ img {
 .auth-form input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(37, 75, 58, 0.09);
+}
+
+/* Keep every keyboard focus indicator in the same muted green-gray tone. */
+:where(button, a, input, textarea, select, summary, [role='combobox'], [role='switch'], [role='tab']):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(82, 105, 88, 0.28) !important;
 }
 
 .auth-password {
