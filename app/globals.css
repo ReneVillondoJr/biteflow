@@ -2176,6 +2176,19 @@ img {
   height: 15px;
 }
 
+.login-submit-button {
+  background: #dff0df !important;
+  color: #234b38 !important;
+}
+
+.login-submit-button:hover {
+  background: #cce5ce !important;
+}
+
+.login-submit-button svg {
+  color: inherit;
+}
+
 .admin-content {
   position: relative;
 }

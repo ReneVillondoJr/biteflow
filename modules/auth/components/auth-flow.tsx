@@ -130,7 +130,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               </span>
             </label>
 
-            <Button className='mt-2 w-full' type='submit'>
+            <Button className='login-submit-button mt-2 w-full' type='submit'>
               {isRegister ? 'Create account' : 'Sign in'}
               <ArrowRight aria-hidden='true' />
             </Button>

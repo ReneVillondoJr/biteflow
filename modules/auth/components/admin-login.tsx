@@ -88,7 +88,7 @@ export default function AdminLogin() {
               </span>
             </label>
             {error && <p className='admin-login-error' role='alert'>{error}</p>}
-            <Button className='mt-2 h-11 rounded-full' type='submit' disabled={loading}>
+            <Button className='login-submit-button mt-2 h-11 rounded-full' type='submit' disabled={loading}>
               {loading ? 'Signing in...' : 'Sign in securely'}
               <ArrowRight aria-hidden='true' />
             </Button>
