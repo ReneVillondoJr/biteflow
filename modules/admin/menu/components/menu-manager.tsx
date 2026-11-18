@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react';
 
 import {
   ChefHat,
+  CheckCircle2,
   Clock3,
   ImagePlus,
   Sparkles,
@@ -13,11 +14,13 @@ import {
   Plus,
   Search,
   Star,
+  Tags,
   Trash2,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import {
   Dialog,
   DialogContent,
@@ -360,20 +363,16 @@ export default function MenuManager({ menu }: MenuManagerProps) {
 
       <div className='mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4'>
         {[
-          { label: 'Total dishes', value: menu.data.items.length },
-          { label: 'Available', value: availableCount },
-          { label: 'Featured', value: featuredCount },
+          { label: 'Total dishes', value: menu.data.items.length, icon: ChefHat },
+          { label: 'Available', value: availableCount, icon: CheckCircle2 },
+          { label: 'Featured', value: featuredCount, icon: Star },
           {
             label: 'Categories',
             value: menu.data.categories.filter((category) => category.slug !== 'all').length,
+            icon: Tags,
           },
         ].map((metric) => (
-          <Card className='rounded-md border-border bg-white p-4 shadow-sm' key={metric.label}>
-            <p className='text-[10px] font-bold uppercase tracking-wide text-muted-foreground'>
-              {metric.label}
-            </p>
-            <p className='mt-2 text-2xl font-bold text-[#20372c]'>{metric.value}</p>
-          </Card>
+          <SummaryMetricCard key={metric.label} label={metric.label} value={metric.value} icon={metric.icon} />
         ))}
       </div>
 

@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { AlertTriangle, Minus, PackagePlus, Plus, Search, Trash2, Pencil } from 'lucide-react';
+import { AlertTriangle, CircleCheck, CircleDollarSign, Minus, Package, PackagePlus, Plus, Search, Trash2, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import { inventoryItemSchema, type InventoryItem } from '../schema';
 import type { useInventory } from '../hooks/use-inventory';
 
@@ -54,7 +55,12 @@ export default function InventoryManager({ inventory }: Props) {
     {inventory.storageError ? <p className='mb-4 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900' role='alert'>{inventory.storageError}</p> : null}
     {inventory.notice ? <p className='mb-4 rounded-md border border-border bg-card p-3 text-sm' role='status'>{inventory.notice}<Button type='button' variant='ghost' size='sm' className='ml-2 h-7' onClick={() => inventory.setNotice(null)} aria-label='Dismiss inventory message'>×</Button></p> : null}
     <div className='mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4'>
-      {[{ label: 'Tracked items', value: inventory.items.length }, { label: 'Low stock', value: lowItems.length }, { label: 'Healthy stock', value: inventory.items.length - lowItems.length }, { label: 'Stock value', value: `₱${stockValue.toLocaleString('en-PH', { maximumFractionDigits: 2 })}` }].map((metric) => <Card className='rounded-2xl border-border/80 bg-card p-4 shadow-sm' key={metric.label}><p className='text-[10px] font-bold uppercase tracking-wide text-muted-foreground'>{metric.label}</p><p className='mt-2 text-2xl font-semibold tracking-tight text-foreground'>{metric.value}</p></Card>)}
+      {[
+        { label: 'Tracked items', value: inventory.items.length, icon: Package },
+        { label: 'Low stock', value: lowItems.length, icon: AlertTriangle },
+        { label: 'Healthy stock', value: inventory.items.length - lowItems.length, icon: CircleCheck },
+        { label: 'Stock value', value: `₱${stockValue.toLocaleString('en-PH', { maximumFractionDigits: 2 })}`, icon: CircleDollarSign },
+      ].map((metric) => <SummaryMetricCard key={metric.label} label={metric.label} value={metric.value} icon={metric.icon} />)}
     </div>
     {lowItems.length > 0 ? <Card className='mb-4 flex items-start gap-3 rounded-2xl border-amber-200 bg-amber-50/80 p-4 text-amber-950'><AlertTriangle className='mt-0.5 size-4 shrink-0 text-amber-700' /><div><p className='text-sm font-semibold'>Reorder attention needed</p><p className='mt-0.5 text-xs'>{lowItems.map((item) => item.name).join(', ')} {lowItems.length === 1 ? 'is' : 'are'} at or below the reorder threshold.</p></div></Card> : null}
     <Card className='overflow-hidden rounded-2xl border-border/80 bg-card shadow-sm'>

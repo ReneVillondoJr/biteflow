@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import type { Promotion } from '../schema';
 import { promotionSchema } from '../schema';
 import type { usePromotions } from '../hooks/use-promotions';
@@ -87,7 +88,7 @@ export default function PromotionsManager({ promotions }: Props) {
         { label: 'Active now', value: activeCount, icon: Tag, color: 'bg-[#e5eee5] text-[#41664e]' },
         { label: 'Scheduled', value: scheduledCount, icon: CalendarDays, color: 'bg-[#f3ebdc] text-[#8b6b35]' },
         { label: 'Paused', value: pausedCount, icon: Clock3, color: 'bg-[#edf0f2] text-[#5b6871]' },
-      ].map((metric) => <Card key={metric.label} className='flex items-center gap-3 rounded-md border-border bg-card p-4 shadow-sm'><span className={`grid size-10 place-items-center rounded-md ${metric.color}`}><metric.icon className='size-4' /></span><div><p className='text-[10px] font-bold uppercase tracking-wide text-muted-foreground'>{metric.label}</p><p className='text-xl font-semibold text-foreground'>{metric.value}</p></div></Card>)}
+      ].map((metric) => <SummaryMetricCard key={metric.label} label={metric.label} value={metric.value} icon={metric.icon} />)}
     </div>
     <Card className='overflow-hidden rounded-md border-border bg-card p-4 shadow-sm sm:p-5'>
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>

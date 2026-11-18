@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import type { Customer } from '../schema';
 import { customerSchema } from '../schema';
 import type { useCustomers } from '../hooks/use-customers';
@@ -92,7 +93,7 @@ export default function CustomersManager({ customers }: Props) {
         { label: 'Active accounts', value: activeCount, icon: UserRound, color: 'bg-[#e5eee5] text-[#41664e]' },
         { label: 'VIP customers', value: vipCount, icon: Crown, color: 'bg-[#f3ebdc] text-[#8b6b35]' },
         { label: 'Lifetime spend', value: formatMoney(lifetimeValue), icon: CircleDollarSign, color: 'bg-[#eef1f4] text-[#526d80]' },
-      ].map((metric) => <Card key={metric.label} className='flex min-h-24 items-center gap-3 rounded-md border-border bg-card p-4 shadow-sm'><span className={`grid size-10 shrink-0 place-items-center rounded-md ${metric.color}`}><metric.icon className='size-4' /></span><div className='min-w-0'><p className='text-[10px] font-bold uppercase tracking-wide text-muted-foreground'>{metric.label}</p><p className='truncate text-xl font-semibold text-foreground'>{metric.value}</p></div></Card>)}
+      ].map((metric) => <SummaryMetricCard key={metric.label} label={metric.label} value={metric.value} icon={metric.icon} />)}
     </div>
     <Card className='overflow-hidden rounded-md border-border bg-card p-4 shadow-sm sm:p-5'>
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
