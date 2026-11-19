@@ -15,7 +15,8 @@ import { getPromotionStatus, localDateValue } from '../utils';
 
 type Props = { promotions: ReturnType<typeof usePromotions> };
 type Draft = Omit<Promotion, 'id'>;
-const inputClass = 'h-10 rounded-md border-border bg-white px-3 text-sm';
+const inputClass = 'h-10 w-full rounded-md border border-input bg-white px-3 text-sm text-foreground';
+const selectClass = 'h-10 w-full appearance-auto rounded-md border border-input bg-white px-3 text-sm text-foreground';
 const endDate = new Date();
 endDate.setDate(endDate.getDate() + 30);
 const blankDraft: Draft = { name: '', code: '', description: '', kind: 'percentage', value: 10, startDate: localDateValue(new Date()), endDate: localDateValue(endDate), status: 'active' };
@@ -52,12 +53,12 @@ function PromotionForm({ promotion, onSave, onClose }: { promotion: Promotion | 
     <div className='grid gap-3 sm:grid-cols-2'>
       <label className='grid gap-1.5 text-xs font-semibold'>Promotion name<Input className={inputClass} name='name' defaultValue={promotion?.name} placeholder='e.g. Weekend special' required maxLength={80} /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Promo code<Input className={inputClass} name='code' defaultValue={promotion?.code} placeholder='WEEKEND15' required maxLength={20} /></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Promotion type<select className={inputClass} name='kind' defaultValue={promotion?.kind ?? blankDraft.kind}><option value='percentage'>Percentage discount</option><option value='fixed'>Fixed amount discount</option><option value='bundle'>Bundle price</option></select></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Promotion type<select className={selectClass} name='kind' defaultValue={promotion?.kind ?? blankDraft.kind}><option value='percentage'>Percentage discount</option><option value='fixed'>Fixed amount discount</option><option value='bundle'>Bundle price</option></select></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Value<input className={inputClass} name='value' type='number' min='0.01' step='0.01' defaultValue={promotion?.value ?? blankDraft.value} required /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Starts on<input className={inputClass} name='startDate' type='date' defaultValue={promotion?.startDate ?? blankDraft.startDate} required /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Ends on<input className={inputClass} name='endDate' type='date' defaultValue={promotion?.endDate ?? blankDraft.endDate} required /></label>
       <label className='grid gap-1.5 text-xs font-semibold sm:col-span-2'>Description<input className={inputClass} name='description' defaultValue={promotion?.description} placeholder='Short customer-facing details' maxLength={180} /></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Initial status<select className={inputClass} name='status' defaultValue={promotion?.status ?? 'active'}><option value='active'>Active</option><option value='paused'>Paused</option><option value='draft'>Draft</option></select></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Initial status<select className={selectClass} name='status' defaultValue={promotion?.status ?? 'active'}><option value='active'>Active</option><option value='paused'>Paused</option><option value='draft'>Draft</option></select></label>
     </div>
     {error ? <p className='text-sm text-destructive' role='alert'>{error}</p> : null}
     <DialogFooter><Button type='button' variant='outline' onClick={onClose}>Cancel</Button><Button type='submit' variant='soft'>{promotion ? 'Save changes' : 'Create promotion'}</Button></DialogFooter>
