@@ -1,1 +1,31 @@
-export { default } from './components/kitchen-page';
+'use client';
+
+import { useKitchen } from './hooks/use-kitchen';
+import KitchenBoard from './components/kitchen-board';
+import KitchenHeading from './components/kitchen-heading';
+import KitchenMetrics from './components/kitchen-metrics';
+
+export default function KitchenModule() {
+  const kitchen = useKitchen();
+
+  return (
+    <div className='mx-auto w-full max-w-[1240px] py-3 md:py-4'>
+      <KitchenHeading onRefresh={kitchen.refreshKitchen} />
+      <KitchenMetrics metrics={kitchen.metrics} />
+      <KitchenBoard
+        tickets={kitchen.visibleTickets}
+        query={kitchen.query}
+        station={kitchen.station}
+        status={kitchen.status}
+        onQueryChange={kitchen.setQuery}
+        onStationChange={kitchen.setStation}
+        onStatusChangeFilter={kitchen.setStatus}
+        onClearFilters={kitchen.clearFilters}
+        elapsed={kitchen.elapsed}
+        onStatusChange={kitchen.updateStatus}
+        onToggleHeld={kitchen.toggleHeld}
+        onTogglePriority={kitchen.togglePriority}
+      />
+    </div>
+  );
+}
