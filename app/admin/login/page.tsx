@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import AdminLogin from '@/modules/auth/components/admin-login';
+import { AdminLogin } from '@/modules/auth';
 
 export const metadata: Metadata = {
   title: 'Admin Sign In',

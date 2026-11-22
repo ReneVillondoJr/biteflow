@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import MenuItemDetail from '@/modules/menu/components/item-detail';
+import { MenuItemDetail } from '@/modules/menu';
 import { getMenuItemBySlug, menuItems } from '@/modules/menu/data/menu';
 
 type MenuItemPageProps = {
