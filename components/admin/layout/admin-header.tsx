@@ -6,6 +6,7 @@ import { Bell, ChevronDown, Search, ShieldCheck, UserRound } from 'lucide-react'
 import { useMemo, useState } from 'react';
 
 import { adminNavigationGroups } from './navigation';
+import { useSettingsData } from '@/modules/settings/data/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,14 +20,17 @@ export default function AdminHeader() {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [unreadNotifications, setUnreadNotifications] = useState(['orders', 'stock']);
+  const { data: settings } = useSettingsData();
+  const allowed = settings.roleAccess[settings.navigationRole];
+  const visibleItems = adminNavigationGroups.flatMap((group) => group.items).filter((item) => allowed.includes(item.href.split('/').at(-1) as (typeof allowed)[number]));
 
   const pageName = useMemo(() => {
-    const item = adminNavigationGroups.flatMap((group) => group.items).find((nav) => pathname === nav.href || pathname.startsWith(`${nav.href}/`));
+    const item = visibleItems.find((nav) => pathname === nav.href || pathname.startsWith(`${nav.href}/`));
     return item?.label ?? 'Administration';
-  }, [pathname]);
+  }, [pathname, visibleItems]);
 
   const results = query.trim()
-    ? adminNavigationGroups.flatMap((group) => group.items).filter((item) => item.label.toLowerCase().includes(query.trim().toLowerCase())).slice(0, 5)
+    ? visibleItems.filter((item) => item.label.toLowerCase().includes(query.trim().toLowerCase())).slice(0, 5)
     : [];
 
   function openNotification(id: string, href: string) {

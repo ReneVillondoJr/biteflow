@@ -5,6 +5,7 @@ import { LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { adminNavigationGroups } from './navigation';
+import { useSettingsData } from '@/modules/settings/data/store';
 
 type AdminSidebarProps = {
   pathname: string;
@@ -12,6 +13,9 @@ type AdminSidebarProps = {
 };
 
 export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps) {
+  const { data: settings } = useSettingsData();
+  const allowed = settings.roleAccess[settings.navigationRole];
+  const visibleGroups = adminNavigationGroups.map((group) => ({ ...group, items: group.items.filter((item) => allowed.includes(item.href.split('/').at(-1) as (typeof allowed)[number])) })).filter((group) => group.items.length > 0);
   return (
     <>
     <aside className='fixed inset-y-0 left-0 z-40 hidden w-[256px] flex-col bg-[#173c2c] px-3 py-4 text-white shadow-[12px_0_40px_rgba(23,60,44,0.08)] lg:flex'>
@@ -24,7 +28,7 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
       </Link>
 
       <nav className='mt-1 flex-1 space-y-2 overflow-y-auto px-1 pb-2' aria-label='Admin navigation'>
-        {adminNavigationGroups.map((group) => (
+        {visibleGroups.map((group) => (
           <div className='mb-2 grid gap-0.5' key={group.label}>
             <span className='mb-0.5 block px-3 text-[8px] font-black uppercase tracking-[0.2em] text-white/35'>{group.label}</span>
 
@@ -58,7 +62,7 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
       </Button>
     </aside>
     <nav className='fixed inset-x-3 bottom-3 z-50 grid h-[64px] grid-cols-5 items-center rounded-2xl border border-border bg-card/95 px-2 shadow-[0_16px_40px_rgba(32,46,37,0.12)] backdrop-blur lg:hidden' aria-label='Primary admin navigation'>
-      {adminNavigationGroups.flatMap((group) => group.items).filter((item) => item.mobile).map((item) => {
+      {visibleGroups.flatMap((group) => group.items).filter((item) => item.mobile).map((item) => {
         const Icon = item.icon;
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
         return (
