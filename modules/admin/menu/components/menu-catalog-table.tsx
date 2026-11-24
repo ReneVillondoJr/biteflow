@@ -21,7 +21,7 @@ export default function MenuCatalogTable({ menu, onEdit }: MenuCatalogTableProps
       <div className='flex flex-col gap-3 border-b border-border p-4 lg:flex-row lg:items-center lg:justify-between'>
         <div className='relative w-full lg:max-w-sm'>
           <Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' aria-hidden='true' />
-          <Input aria-label='Search menu items' className='h-9 border-[#dde2dc] bg-white pl-9 shadow-none' value={menu.query} onChange={(event) => menu.setQuery(event.target.value)} placeholder='Search dishes or ingredients' />
+          <Input aria-label='Search menu items' className='search-field-input h-9 pl-9' value={menu.query} onChange={(event) => menu.setQuery(event.target.value)} placeholder='Search dishes or ingredients' />
         </div>
         <div className='flex flex-wrap items-center gap-3'>
           <SelectMenu

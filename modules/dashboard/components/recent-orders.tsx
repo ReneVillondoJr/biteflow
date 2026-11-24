@@ -38,9 +38,10 @@ export default function RecentOrders() {
             type='button'
             key={option}
             onClick={() => setStatus(option)}
-            variant={status === option ? 'default' : 'ghost'}
+            variant='ghost'
             size='sm'
-            className='h-7 rounded-md px-2.5 text-[10px]'
+            aria-pressed={status === option}
+            className={`h-7 rounded-md px-2.5 text-[10px] ${status === option ? 'border border-border bg-white font-bold text-foreground shadow-sm hover:bg-white' : 'border border-transparent text-muted-foreground hover:bg-muted/60 hover:text-foreground'}`}
           >
             {option}
           </Button>

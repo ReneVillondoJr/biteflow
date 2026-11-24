@@ -41,6 +41,7 @@ export default function MenuFilters({
           <Input
             type='search'
             aria-label='Search menu items'
+            className='search-field-input h-9 pl-3 pr-9'
             placeholder='Search dishes, ingredients, or categories...'
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}

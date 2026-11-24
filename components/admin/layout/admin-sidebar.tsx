@@ -18,19 +18,19 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
   const visibleGroups = adminNavigationGroups.map((group) => ({ ...group, items: group.items.filter((item) => allowed.includes(item.href.split('/').at(-1) as (typeof allowed)[number])) })).filter((group) => group.items.length > 0);
   return (
     <>
-    <aside className='fixed inset-y-0 left-0 z-40 hidden w-[256px] flex-col bg-[#173c2c] px-3 py-4 text-white shadow-[12px_0_40px_rgba(23,60,44,0.08)] lg:flex'>
-      <Link className='flex h-[62px] items-center gap-3 rounded-xl px-3 transition-colors hover:bg-white/[0.06]' href='/admin/dashboard'>
-        <span className='flex size-11 items-center justify-center rounded-xl bg-[#d9c39a] text-sm font-black tracking-tight text-[#173c2c]'>BF</span>
+    <aside className='fixed inset-y-0 left-0 z-40 hidden w-[256px] flex-col border-r border-border bg-[#fbfcfa] px-3 py-4 text-foreground shadow-none lg:flex'>
+      <Link className='flex h-[62px] items-center gap-3 rounded-xl px-3 transition-colors hover:bg-muted' href='/admin/dashboard'>
+        <span className='flex size-11 items-center justify-center rounded-xl bg-[#e5eee5] text-sm font-black tracking-tight text-primary'>BF</span>
         <span>
           <strong className='block text-[13px] font-extrabold tracking-[0.08em]'>BITEFLOW</strong>
-          <small className='mt-0.5 block text-[8px] font-bold tracking-[0.24em] text-white/45'>ADMIN PORTAL</small>
+          <small className='mt-0.5 block text-[8px] font-bold tracking-[0.24em] text-muted-foreground'>ADMIN PORTAL</small>
         </span>
       </Link>
 
       <nav className='mt-1 flex-1 space-y-2 overflow-y-auto px-1 pb-2' aria-label='Admin navigation'>
         {visibleGroups.map((group) => (
           <div className='mb-2 grid gap-0.5' key={group.label}>
-            <span className='mb-0.5 block px-3 text-[8px] font-black uppercase tracking-[0.2em] text-white/35'>{group.label}</span>
+            <span className='mb-0.5 block px-3 text-[8px] font-black uppercase tracking-[0.2em] text-muted-foreground'>{group.label}</span>
 
             {group.items.map((item) => {
               const Icon = item.icon;
@@ -39,8 +39,8 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
               return (
                 <Link
                   className={[
-                    'group relative flex h-10 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold text-white/65 transition-all hover:bg-white/[0.07] hover:text-white',
-                    active ? 'bg-white/12 text-white shadow-none hover:bg-white/15 hover:text-white' : '',
+                    'group relative flex h-10 items-center gap-3 border-l-2 border-transparent px-3 text-[12px] font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground',
+                    active ? 'border-primary bg-[#edf2ed] text-primary hover:bg-[#edf2ed] hover:text-primary' : '',
                   ].filter(Boolean).join(' ')}
                   href={item.href}
                   key={item.href}
@@ -56,7 +56,7 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
         ))}
       </nav>
 
-      <Button className='mx-1 h-10 justify-start rounded-xl text-white/55 hover:bg-white/[0.07] hover:text-white' variant='ghost' type='button' onClick={onSignOut}>
+      <Button className='mx-1 h-10 justify-start rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground' variant='ghost' type='button' onClick={onSignOut}>
         <LogOut className='size-4' aria-hidden='true' />
         Sign out
       </Button>
@@ -67,7 +67,7 @@ export default function AdminSidebar({ pathname, onSignOut }: AdminSidebarProps)
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
         return (
           <Link
-            className={`flex h-12 flex-col items-center justify-center gap-1 rounded-xl text-[9px] font-bold ${active ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground'}`}
+            className={`flex h-12 flex-col items-center justify-center gap-1 rounded-xl text-[9px] font-bold ${active ? 'bg-[#edf2ed] text-primary' : 'text-muted-foreground'}`}
             href={item.href}
             key={item.href}
             aria-current={active ? 'page' : undefined}

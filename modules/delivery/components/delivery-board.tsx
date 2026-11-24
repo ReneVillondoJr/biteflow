@@ -41,7 +41,7 @@ export default function DeliveryBoard(props: DeliveryBoardProps) {
             value={query}
             onChange={(event) => props.onQueryChange(event.target.value)}
             placeholder='Search order, customer, or address'
-            className='h-9 border-[#e1e5de] bg-white pl-9 text-[12px] shadow-none placeholder:text-[#9da59c] focus-visible:border-[#e1e5de] focus-visible:ring-0'
+            className='search-field-input h-9 pl-9'
           />
         </div>
         <div className='flex flex-wrap items-center gap-3'>

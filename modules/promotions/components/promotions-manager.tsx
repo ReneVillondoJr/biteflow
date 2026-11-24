@@ -95,7 +95,7 @@ export default function PromotionsManager({ promotions }: Props) {
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
         <div><h2 className='text-base font-semibold'>All promotions</h2><p className='text-xs text-muted-foreground'>{promotions.promotions.length} campaigns</p></div>
         <div className='flex flex-col gap-2 sm:flex-row sm:gap-3'>
-          <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='h-9 w-full rounded-md border border-input bg-white pl-9 pr-3 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring/30 sm:w-56' placeholder='Search name or code' value={promotions.query} onChange={(event) => promotions.setQuery(event.target.value)} aria-label='Search promotions' /></label>
+          <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='search-field-input h-9 w-full pl-9 pr-3 text-xs outline-none sm:w-56' placeholder='Search name or code' value={promotions.query} onChange={(event) => promotions.setQuery(event.target.value)} aria-label='Search promotions' /></label>
           <SelectMenu label='Filter promotions' value={promotions.filter} options={[{ value: 'all', label: 'All statuses' }, { value: 'active', label: 'Active' }, { value: 'scheduled', label: 'Scheduled' }, { value: 'paused', label: 'Paused' }, { value: 'draft', label: 'Draft' }, { value: 'expired', label: 'Expired' }]} onChange={promotions.setFilter} />
         </div>
       </div>

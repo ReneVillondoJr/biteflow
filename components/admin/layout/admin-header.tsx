@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, ChevronDown, Search, ShieldCheck, UserRound } from 'lucide-react';
+import { Bell, ChevronDown, Search, UserRound } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { adminNavigationGroups } from './navigation';
@@ -46,25 +46,25 @@ export default function AdminHeader() {
   }
 
   return (
-    <header className='sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-border/80 bg-background/90 px-4 backdrop-blur-xl md:px-8'>
+    <header className='sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-border bg-card/95 px-4 backdrop-blur-xl md:px-6'>
       <div className='min-w-0'>
-        <span className='block text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground'>Workspace</span>
-        <strong className='mt-0.5 block text-[15px] font-semibold tracking-tight text-foreground'>{pageName}</strong>
+        <span className='block text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground'>Admin</span>
+        <strong className='mt-0.5 block truncate text-sm font-semibold tracking-tight text-foreground'>{pageName}</strong>
       </div>
 
-      <div className='relative hidden w-[280px] md:block'>
+      <div className='relative hidden w-[min(360px,36vw)] md:block'>
         <Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#97a096]' aria-hidden='true' />
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className='h-10 w-full rounded-xl border border-input bg-card pl-9 pr-3 text-[12px] outline-none placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/15'
-          placeholder='Search admin modules'
+          className='search-field-input h-9 w-full pl-9 pr-3 text-xs outline-none'
+          placeholder='Search modules'
           aria-label='Search admin modules'
         />
         {query && (
-          <div className='absolute left-0 right-0 top-[46px] rounded-xl border border-border bg-card p-1.5 shadow-lg'>
+          <div className='absolute left-0 right-0 top-[42px] border border-border bg-card p-1 shadow-lg'>
             {results.length ? results.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setQuery('')} className='flex h-9 items-center rounded-lg px-3 text-[12px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground'>
+              <Link key={item.href} href={item.href} onClick={() => setQuery('')} className='flex h-9 items-center px-3 text-xs font-semibold text-muted-foreground hover:bg-muted hover:text-foreground'>
                 {item.label}
               </Link>
             )) : <div className='px-3 py-2 text-[12px] text-[#97a096]'>No matching modules</div>}
@@ -72,14 +72,10 @@ export default function AdminHeader() {
         )}
       </div>
 
-      <div className='flex items-center gap-2'>
-          <div className='hidden items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1.5 text-[9px] font-bold text-secondary-foreground sm:flex'>
-          <ShieldCheck className='size-3.5' aria-hidden='true' />
-          Secure
-        </div>
+      <div className='flex shrink-0 items-center gap-2 border-l border-border pl-3'>
         <DropdownMenu>
-          <DropdownMenuTrigger aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`} className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
-            <Bell className='size-4' aria-hidden='true' />
+          <DropdownMenuTrigger aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`} className='relative flex size-9 items-center justify-center border border-transparent bg-transparent text-muted-foreground outline-none transition-colors hover:border-border hover:bg-muted'>
+            <Bell className='size-[17px]' aria-hidden='true' />
             {unreadCount > 0 ? <span className='absolute right-2 top-2 size-2 rounded-full bg-[#c78336] ring-2 ring-white' aria-hidden='true' /> : null}
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' sideOffset={6} className='w-72 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>
@@ -109,9 +105,9 @@ export default function AdminHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
-          <DropdownMenuTrigger className='flex h-10 items-center gap-2 rounded-xl border border-border bg-card px-2 pr-2.5 outline-none transition-colors hover:bg-muted'>
-            <span className='flex size-7 items-center justify-center rounded-lg bg-secondary text-secondary-foreground'><UserRound className='size-4' /></span>
-            <span className='hidden text-left md:block'><strong className='block text-[11px] leading-none'>Administrator</strong><small className='mt-1 block text-[9px] text-[#90988f]'>Manager</small></span>
+          <DropdownMenuTrigger aria-label='Open administrator account menu' className='flex h-9 items-center gap-2 border border-transparent bg-transparent px-2 outline-none transition-colors hover:border-border hover:bg-muted'>
+            <span className='flex size-7 items-center justify-center bg-primary text-primary-foreground'><UserRound className='size-3.5' /></span>
+            <span className='hidden text-left md:block'><strong className='block text-[11px] leading-none'>Administrator</strong><small className='mt-1 block text-[9px] text-muted-foreground'>Manager</small></span>
             <ChevronDown className='hidden size-3.5 text-muted-foreground md:block' />
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' sideOffset={6} className='w-48 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>

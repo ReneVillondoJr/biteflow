@@ -49,7 +49,7 @@ function SelectTrigger({
       {children}
       <SelectPrimitive.Icon
         render={
-          <ChevronDownIcon className="pointer-events-none size-4 text-muted-foreground" />
+          <ChevronDownIcon className="pointer-events-none size-3.5 text-muted-foreground" />
         }
       />
     </SelectPrimitive.Trigger>
@@ -228,7 +228,7 @@ function SelectMenu<T extends string>({
         id={id}
         aria-label={label}
         className={cn(
-          "h-9 min-w-36 gap-2 rounded-none border-[#dfe4dc] bg-white py-2 pl-3 pr-3 text-[12px] font-semibold text-[#526057] shadow-none transition-colors hover:border-[#cbd3c8] hover:bg-white focus-visible:border-[#dfe4dc] focus-visible:ring-0 data-popup-open:border-[#b8c3b5] data-popup-open:bg-white",
+          "relative h-9 min-w-36 gap-2 rounded-none border-[#dfe4dc] bg-white py-2 pl-3 pr-3 text-[12px] font-semibold text-[#526057] shadow-none after:pointer-events-none after:absolute after:inset-y-2 after:right-8 after:w-px after:bg-[#e8ece7] after:content-[''] transition-colors hover:border-[#cbd3c8] hover:bg-white focus-visible:border-[#dfe4dc] focus-visible:ring-0 data-popup-open:border-[#b8c3b5] data-popup-open:bg-white",
           className
         )}
       >

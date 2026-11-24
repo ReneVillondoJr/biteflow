@@ -36,7 +36,7 @@ export default function ActivityLogsTable({ logs, filteredCount, query, category
   return (
     <Card className='overflow-hidden rounded-md border-border shadow-sm'>
       <div className='flex flex-col gap-3 border-b border-border px-4 py-3 lg:flex-row lg:items-center lg:justify-between'>
-        <div className='relative w-full lg:w-[320px]'><Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' aria-hidden='true' /><Input aria-label='Search activity logs' className='h-9 border-[#dde2dc] bg-white pl-9 shadow-none' value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder='Search actor, action, target, IP' /></div>
+        <div className='relative w-full lg:w-[320px]'><Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' aria-hidden='true' /><Input aria-label='Search activity logs' className='search-field-input h-9 pl-9' value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder='Search actor, action, target, IP' /></div>
         <div className='flex flex-wrap items-center gap-3'>
           <SelectMenu label='Filter activity by category' value={category} options={activityLogSchema.categoryOptions} onChange={onCategoryChange} />
           <SelectMenu label='Filter activity by result' value={result} options={activityLogSchema.resultOptions} onChange={onResultChange} />

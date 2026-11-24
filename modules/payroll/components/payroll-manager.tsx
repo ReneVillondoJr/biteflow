@@ -93,7 +93,7 @@ export default function PayrollManager({ payroll, staff, staffHydrated }: Props)
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
         <div><h2 className='text-base font-semibold'>Payroll records</h2><p className='text-xs text-muted-foreground'>Showing {Math.min(payroll.filteredEntries.length, 10)} of {payroll.filteredEntries.length} matching records</p></div>
         <div className='flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3'>
-          <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='h-9 w-full rounded-md border border-input bg-white pl-9 pr-3 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/30 sm:w-56' placeholder='Search staff or location' value={payroll.query} onChange={(event) => payroll.setQuery(event.target.value)} aria-label='Search payroll records' /></label>
+          <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='search-field-input h-9 w-full pl-9 pr-3 text-xs outline-none sm:w-56' placeholder='Search staff or location' value={payroll.query} onChange={(event) => payroll.setQuery(event.target.value)} aria-label='Search payroll records' /></label>
           <SelectMenu label='Filter by payroll status' value={payroll.statusFilter} options={[{ value: 'all', label: 'All statuses' }, ...Object.entries(statusLabels).map(([value, label]) => ({ value, label }))]} onChange={payroll.setStatusFilter} />
         </div>
       </div>
