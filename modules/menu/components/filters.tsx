@@ -5,6 +5,7 @@ import { Search, SlidersHorizontal, X } from 'lucide-react';
 import type { MenuCategory, MenuSortOption } from '../types/menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { SelectMenu } from '@/components/select';
 
 type MenuFiltersProps = {
   categories: MenuCategory[];
@@ -64,19 +65,13 @@ export default function MenuFilters({
 
           <span className='menu-sort-label'>Sort</span>
 
-          <select
-            aria-label='Sort menu items'
+          <SelectMenu
+            label='Sort menu items'
             value={sortBy}
-            className='h-9 rounded-lg border border-input bg-transparent px-3 text-xs outline-none'
-            onChange={(event) =>
-              onSortChange(event.target.value as MenuSortOption)
-            }
-          >
-            <option value='featured'>Recommended</option>
-            <option value='price-low'>Price: low to high</option>
-            <option value='price-high'>Price: high to low</option>
-            <option value='name'>Name: A–Z</option>
-          </select>
+            onChange={onSortChange}
+            options={[{ value: 'featured', label: 'Recommended' }, { value: 'price-low', label: 'Price: low to high' }, { value: 'price-high', label: 'Price: high to low' }, { value: 'name', label: 'Name: A–Z' }]}
+            className='min-w-44'
+          />
         </label>
       </div>
 

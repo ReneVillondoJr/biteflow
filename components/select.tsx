@@ -187,29 +187,48 @@ function SelectScrollDownButton({
   )
 }
 
+type SelectOption<T extends string> = T | { value: T; label: string }
+
 type SelectMenuProps<T extends string> = {
-  value: T
-  options: readonly T[]
-  onChange: (value: T) => void
+  value?: T
+  defaultValue?: T
+  options: readonly SelectOption<T>[]
+  onChange?: (value: T) => void
   icon?: LucideIcon
   label: string
+  id?: string
+  placeholder?: string
+  name?: string
+  required?: boolean
   className?: string
 }
 
 function SelectMenu<T extends string>({
   value,
+  defaultValue,
   options,
   onChange,
   icon: Icon,
   label,
+  id,
+  placeholder,
+  name,
+  required,
   className,
 }: SelectMenuProps<T>) {
   return (
-    <Select value={value} onValueChange={(nextValue) => onChange(String(nextValue) as T)}>
+    <Select
+      value={value}
+      defaultValue={defaultValue}
+      name={name}
+      required={required}
+      onValueChange={(nextValue) => onChange?.(String(nextValue) as T)}
+    >
       <SelectTrigger
+        id={id}
         aria-label={label}
         className={cn(
-          "h-10 min-w-44 gap-2 rounded-none border-[#dfe4dc] bg-white px-3 text-[12px] font-semibold text-[#526057] shadow-none transition-colors hover:border-[#cbd3c8] hover:bg-white focus-visible:border-[#dfe4dc] focus-visible:ring-0 data-popup-open:border-[#b8c3b5] data-popup-open:bg-white",
+          "h-9 min-w-36 gap-2 rounded-none border-[#dfe4dc] bg-white py-2 pl-3 pr-3 text-[12px] font-semibold text-[#526057] shadow-none transition-colors hover:border-[#cbd3c8] hover:bg-white focus-visible:border-[#dfe4dc] focus-visible:ring-0 data-popup-open:border-[#b8c3b5] data-popup-open:bg-white",
           className
         )}
       >
@@ -218,7 +237,7 @@ function SelectMenu<T extends string>({
             <Icon className="size-3.5" aria-hidden="true" />
           </span>
         )}
-        <SelectValue />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent
         sideOffset={0}
@@ -226,15 +245,19 @@ function SelectMenu<T extends string>({
         alignItemWithTrigger={false}
         className="!w-[var(--anchor-width)] !min-w-0 origin-top overflow-hidden rounded-none border border-[#dfe4dc] bg-white p-1 shadow-[0_8px_18px_rgba(32,46,37,0.10)] ring-0 transition-none data-open:animate-none data-closed:animate-none"
       >
-        {options.map((option) => (
+        {options.map((option) => {
+          const optionValue = typeof option === 'string' ? option : option.value
+          const optionLabel = typeof option === 'string' ? option : option.label
+          return (
           <SelectItem
-            key={option}
-            value={option}
+            key={optionValue}
+            value={optionValue}
             className="min-h-9 rounded-none px-2.5 pr-8 text-[12px] font-medium text-[#526057] hover:bg-[#f5f6f4] focus:bg-[#f5f6f4] focus:text-[#263b30] data-selected:bg-[#f0f2ee] data-selected:text-[#263b30]"
           >
-            {option}
+            {optionLabel}
           </SelectItem>
-        ))}
+          )
+        })}
       </SelectContent>
     </Select>
   )

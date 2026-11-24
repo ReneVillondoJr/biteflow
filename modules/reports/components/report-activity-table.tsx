@@ -21,7 +21,7 @@ export default function ReportActivityTable({ orders, period }: { orders: Custom
       <Table>
         <TableHeader><TableRow><TableHead>Order</TableHead><TableHead>Customer</TableHead><TableHead>Type</TableHead><TableHead>Payment</TableHead><TableHead>Order value</TableHead><TableHead>Status</TableHead><TableHead>Placed</TableHead></TableRow></TableHeader>
         <TableBody>
-          {orders.map((order) => <TableRow key={order.id}>
+          {orders.slice(0, 10).map((order) => <TableRow key={order.id}>
             <TableCell className='text-xs font-semibold'>{order.id}</TableCell>
             <TableCell className='text-xs'>{order.customer}</TableCell>
             <TableCell className='text-xs'>{order.type}</TableCell>

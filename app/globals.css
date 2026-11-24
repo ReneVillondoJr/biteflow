@@ -118,6 +118,13 @@ button {
   color: inherit;
 }
 
+select,
+[data-slot='select-trigger'] {
+  min-width: 144px;
+  height: 36px !important;
+  border-radius: 0 !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;

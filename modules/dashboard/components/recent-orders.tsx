@@ -58,7 +58,7 @@ export default function RecentOrders() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredOrders.map((order) => (
+            {filteredOrders.slice(0, 10).map((order) => (
               <TableRow key={order.id}>
                 <TableCell className='h-[58px] px-4'>
                   <strong className='block text-[12px] font-extrabold text-[#25382d]'>{order.id}</strong>

@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { SelectMenu } from '@/components/select';
 import { formatCartPrice } from '@/modules/cart/format';
 import { useCart } from '@/modules/cart/provider';
 
@@ -161,20 +162,15 @@ export default function CheckoutModule() {
             htmlFor='fulfillment'
           >
             Order type
-            <select
+            <SelectMenu
               id='fulfillment'
+              label='Order type'
               name='fulfillment'
               value={fulfillment}
-              onChange={(event) =>
-                setFulfillment(
-                  event.target.value === 'pickup' ? 'pickup' : 'delivery',
-                )
-              }
-              className='h-10 rounded-lg border border-input bg-background px-3 text-sm'
-            >
-              <option value='delivery'>Delivery</option>
-              <option value='pickup'>Pickup</option>
-            </select>
+              onChange={(value) => setFulfillment(value === 'pickup' ? 'pickup' : 'delivery')}
+              options={[{ value: 'delivery', label: 'Delivery' }, { value: 'pickup', label: 'Pickup' }]}
+              className='w-full'
+            />
           </label>
           {fulfillment === 'delivery' ?
             <label

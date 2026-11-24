@@ -70,7 +70,7 @@ export default function OrdersTable({
             <Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' aria-hidden='true' />
             <Input className='h-9 border-[#dde2dc] bg-white pl-9 shadow-none placeholder:text-[#9da59c] focus-visible:border-[#dde2dc] focus-visible:bg-white focus-visible:ring-0' value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder='Search order or customer' />
           </div>
-          <div className='flex flex-wrap items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-3'>
             <OrderSelect
               value={status}
               options={orderSchema.statusOptions}

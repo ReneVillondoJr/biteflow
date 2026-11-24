@@ -31,7 +31,7 @@ export default function AdminModulePage({
         <h1 className='mt-1 font-heading text-3xl font-normal tracking-tight'>{title}</h1>
         <p className='mx-auto mt-3 max-w-sm text-sm leading-6 text-muted-foreground'>{description}</p>
         {primaryAction && (
-          <Button className='mt-6 rounded-md' render={<Link href={primaryAction.href} />}>
+          <Button className='mt-6 rounded-md' nativeButton={false} render={<Link href={primaryAction.href} />}>
             {primaryAction.label}
             <ArrowRight className='size-4' aria-hidden='true' />
           </Button>

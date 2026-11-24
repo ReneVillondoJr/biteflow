@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { SelectMenu } from '@/components/select';
 import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import type { Customer } from '../schema';
 import { customerSchema } from '../schema';
@@ -50,9 +51,9 @@ function CustomerForm({ customer, onSave, onClose }: { customer: Customer | null
       <label className='grid gap-1.5 text-xs font-semibold'>Full name<Input className={inputClass} name='name' defaultValue={customer?.name} placeholder='Customer name' required maxLength={80} /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Email address<Input className={inputClass} name='email' type='email' defaultValue={customer?.email} placeholder='name@example.com' required /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Phone number<Input className={inputClass} name='phone' type='tel' defaultValue={customer?.phone} placeholder='+63 9xx xxx xxxx' required maxLength={24} /></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Preferred contact<select className={inputClass} name='preferredContact' defaultValue={customer?.preferredContact ?? blankDraft.preferredContact}><option value='email'>Email</option><option value='sms'>Text message</option><option value='phone'>Phone call</option></select></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Customer tier<select className={inputClass} name='tier' defaultValue={customer?.tier ?? blankDraft.tier}><option value='regular'>Regular</option><option value='vip'>VIP</option></select></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Account status<select className={inputClass} name='status' defaultValue={customer?.status ?? blankDraft.status}><option value='active'>Active</option><option value='inactive'>Inactive</option></select></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Preferred contact<SelectMenu label='Preferred contact' name='preferredContact' defaultValue={customer?.preferredContact ?? blankDraft.preferredContact} options={[{ value: 'email', label: 'Email' }, { value: 'sms', label: 'Text message' }, { value: 'phone', label: 'Phone call' }]} className='w-full' /></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Customer tier<SelectMenu label='Customer tier' name='tier' defaultValue={customer?.tier ?? blankDraft.tier} options={[{ value: 'regular', label: 'Regular' }, { value: 'vip', label: 'VIP' }]} className='w-full' /></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Account status<SelectMenu label='Account status' name='status' defaultValue={customer?.status ?? blankDraft.status} options={[{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }]} className='w-full' /></label>
       <label className='grid gap-1.5 text-xs font-semibold sm:col-span-2'>Notes<textarea className='min-h-24 resize-y rounded-md border border-input bg-white px-3 py-2 text-sm outline-none' name='notes' defaultValue={customer?.notes} placeholder='Preferences or account notes' maxLength={500} /></label>
     </div>
     {error ? <p className='text-sm text-destructive' role='alert'>{error}</p> : null}
@@ -97,24 +98,24 @@ export default function CustomersManager({ customers }: Props) {
     </div>
     <Card className='overflow-hidden rounded-md border-border bg-card p-4 shadow-sm sm:p-5'>
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-        <div><h2 className='text-base font-semibold'>Customer directory</h2><p className='text-xs text-muted-foreground'>{customers.filteredCustomers.length} of {customers.customers.length} profiles</p></div>
-        <div className='flex flex-col gap-2 sm:flex-row'>
+        <div><h2 className='text-base font-semibold'>Customer directory</h2><p className='text-xs text-muted-foreground'>Showing {Math.min(customers.filteredCustomers.length, 10)} of {customers.filteredCustomers.length} matching profiles</p></div>
+        <div className='flex flex-col gap-4 sm:flex-row sm:gap-x-8 sm:gap-y-4'>
           <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='h-9 w-full rounded-md border border-input bg-white pl-9 pr-3 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring/30 sm:w-56' placeholder='Search name, email, phone' value={customers.query} onChange={(event) => customers.setQuery(event.target.value)} aria-label='Search customers' /></label>
-          <select className='h-9 rounded-md border border-input bg-white px-3 text-xs' value={customers.statusFilter} onChange={(event) => customers.setStatusFilter(event.target.value)} aria-label='Filter by account status'><option value='all'>All accounts</option><option value='active'>Active</option><option value='inactive'>Inactive</option></select>
-          <select className='h-9 rounded-md border border-input bg-white px-3 text-xs' value={customers.tierFilter} onChange={(event) => customers.setTierFilter(event.target.value)} aria-label='Filter by customer tier'><option value='all'>All tiers</option><option value='vip'>VIP</option><option value='regular'>Regular</option></select>
+          <SelectMenu label='Filter by account status' value={customers.statusFilter} options={[{ value: 'all', label: 'All accounts' }, { value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }]} onChange={customers.setStatusFilter} />
+          <SelectMenu label='Filter by customer tier' value={customers.tierFilter} options={[{ value: 'all', label: 'All tiers' }, { value: 'vip', label: 'VIP' }, { value: 'regular', label: 'Regular' }]} onChange={customers.setTierFilter} />
         </div>
       </div>
       <div className='overflow-x-auto'>
         <Table>
           <TableHeader><TableRow><TableHead>Customer</TableHead><TableHead>Orders</TableHead><TableHead>Lifetime spend</TableHead><TableHead>Tier</TableHead><TableHead>Account</TableHead><TableHead className='text-right'>Actions</TableHead></TableRow></TableHeader>
           <TableBody>
-            {customers.filteredCustomers.map((customer) => <TableRow key={customer.id}>
+            {customers.filteredCustomers.slice(0, 10).map((customer) => <TableRow key={customer.id}>
               <TableCell><button type='button' className='text-left' onClick={() => openCustomer(customer)}><strong className='block text-xs text-foreground hover:underline'>{customer.name}</strong><span className='mt-0.5 block text-[10px] text-muted-foreground'>{customer.email}</span></button></TableCell>
               <TableCell className='text-xs'>{customer.ordersCount}</TableCell>
               <TableCell className='text-xs font-semibold'>{formatMoney(customer.lifetimeValue)}</TableCell>
               <TableCell><span className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${customer.tier === 'vip' ? 'bg-[#f3ebdc] text-[#8b6b35]' : 'bg-[#edf0f2] text-[#5b6871]'}`}>{customer.tier === 'vip' ? 'VIP' : 'Regular'}</span></TableCell>
               <TableCell><span className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${customer.status === 'active' ? 'bg-[#e5eee5] text-[#41664e]' : 'bg-[#edf0f2] text-[#5b6871]'}`}>{customer.status === 'active' ? 'Active' : 'Inactive'}</span></TableCell>
-              <TableCell><div className='flex justify-end gap-1.5'><Button variant='outline' size='sm' className='h-7 px-2.5 text-[10px]' onClick={() => openForm(customer)}>Edit</Button><Button variant='outline' size='sm' className='h-7 px-2.5 text-[10px]' onClick={() => customers.toggleStatus(customer)}>{customer.status === 'active' ? 'Deactivate' : 'Activate'}</Button><Button variant='ghost' size='icon-sm' className='text-destructive' aria-label={`Remove ${customer.name}`} onClick={() => customers.removeCustomer(customer)}><Trash2 className='size-3.5' /></Button></div></TableCell>
+              <TableCell><div className='flex justify-end gap-2'><Button variant='outline' size='sm' className='h-8 w-24 justify-center px-2 text-[10px]' onClick={() => openForm(customer)}>Edit</Button><Button variant='outline' size='sm' className='h-8 w-24 justify-center px-2 text-[10px]' onClick={() => customers.toggleStatus(customer)}>{customer.status === 'active' ? 'Deactivate' : 'Activate'}</Button><Button variant='ghost' size='icon-sm' className='text-destructive' aria-label={`Remove ${customer.name}`} onClick={() => customers.removeCustomer(customer)}><Trash2 className='size-3.5' /></Button></div></TableCell>
             </TableRow>)}
             {customers.filteredCustomers.length === 0 ? <TableRow><TableCell colSpan={6} className='py-10 text-center text-xs text-muted-foreground'>No customers match your search or filters.</TableCell></TableRow> : null}
           </TableBody>

@@ -1,6 +1,7 @@
 import type { Settings } from '../schema';
 import { Bell, Building2, ShieldCheck, SlidersHorizontal } from 'lucide-react';
 import SettingsSection from './settings-section';
+import { SelectMenu } from '@/components/select';
 
 const inputClass = 'h-10 w-full rounded-md border border-input bg-white px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/30';
 
@@ -18,8 +19,8 @@ export function RestaurantDetails({ settings }: { settings: Settings }) {
 export function RegionalPreferences({ settings }: { settings: Settings }) {
   return <SettingsSection icon={SlidersHorizontal} title='Regional preferences' description='Set the formats used for schedules and reporting.'>
     <div className='grid gap-4 sm:grid-cols-2'>
-      <label className='grid gap-1.5 text-xs font-semibold'>Currency<select className={`${inputClass} appearance-auto`} name='currency' defaultValue={settings.currency}><option value='PHP'>PHP — Philippine peso</option><option value='USD'>USD — US dollar</option></select></label>
-      <label className='grid gap-1.5 text-xs font-semibold'>Time zone<select className={`${inputClass} appearance-auto`} name='timezone' defaultValue={settings.timezone}><option value='Asia/Manila'>Manila (UTC+8)</option><option value='Asia/Singapore'>Singapore (UTC+8)</option><option value='America/Los_Angeles'>Los Angeles</option></select></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Currency<SelectMenu label='Currency' name='currency' defaultValue={settings.currency} options={[{ value: 'PHP', label: 'PHP — Philippine peso' }, { value: 'USD', label: 'USD — US dollar' }]} className='w-full' /></label>
+      <label className='grid gap-1.5 text-xs font-semibold'>Time zone<SelectMenu label='Time zone' name='timezone' defaultValue={settings.timezone} options={[{ value: 'Asia/Manila', label: 'Manila (UTC+8)' }, { value: 'Asia/Singapore', label: 'Singapore (UTC+8)' }, { value: 'America/Los_Angeles', label: 'Los Angeles' }]} className='w-full' /></label>
     </div>
   </SettingsSection>;
 }

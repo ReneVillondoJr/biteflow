@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { SelectMenu } from '@/components/select';
 import { activityLogSchema } from '../schema';
 import type { ActivityLog } from '../types/activity-log';
 
@@ -36,9 +37,9 @@ export default function ActivityLogsTable({ logs, filteredCount, query, category
     <Card className='overflow-hidden rounded-md border-border shadow-sm'>
       <div className='flex flex-col gap-3 border-b border-border px-4 py-3 lg:flex-row lg:items-center lg:justify-between'>
         <div className='relative w-full lg:w-[320px]'><Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' aria-hidden='true' /><Input aria-label='Search activity logs' className='h-9 border-[#dde2dc] bg-white pl-9 shadow-none' value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder='Search actor, action, target, IP' /></div>
-        <div className='flex flex-wrap items-center gap-2'>
-          <select aria-label='Filter activity by category' className='h-9 rounded-md border border-[#dde2dc] bg-white px-3 text-xs' value={category} onChange={(event) => onCategoryChange(event.target.value as typeof category)}>{activityLogSchema.categoryOptions.map((option) => <option key={option}>{option}</option>)}</select>
-          <select aria-label='Filter activity by result' className='h-9 rounded-md border border-[#dde2dc] bg-white px-3 text-xs' value={result} onChange={(event) => onResultChange(event.target.value as typeof result)}>{activityLogSchema.resultOptions.map((option) => <option key={option}>{option}</option>)}</select>
+        <div className='flex flex-wrap items-center gap-3'>
+          <SelectMenu label='Filter activity by category' value={category} options={activityLogSchema.categoryOptions} onChange={onCategoryChange} />
+          <SelectMenu label='Filter activity by result' value={result} options={activityLogSchema.resultOptions} onChange={onResultChange} />
           {hasFilters ? <Button variant='ghost' size='sm' className='h-9 rounded-md px-2 text-[10px]' onClick={onClearFilters}><X className='size-3.5' aria-hidden='true' />Clear</Button> : null}
         </div>
       </div>

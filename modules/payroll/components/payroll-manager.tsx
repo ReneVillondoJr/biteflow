@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { SelectMenu } from '@/components/select';
 import SummaryMetricCard from '@/components/admin/shared/summary-metric-card';
 import type { StaffMember } from '@/modules/staff/schema';
 import type { PayrollEntry } from '../schema';
@@ -15,7 +16,6 @@ import type { PayrollDraft, usePayroll } from '../hooks/use-payroll';
 
 type Props = { payroll: ReturnType<typeof usePayroll>; staff: StaffMember[]; staffHydrated: boolean };
 const inputClass = 'h-10 w-full rounded-md border border-input bg-white px-3 text-sm text-foreground';
-const selectClass = `${inputClass} appearance-auto`;
 const statusLabels: Record<PayrollEntry['status'], string> = { draft: 'Draft', approved: 'Approved', paid: 'Paid' };
 const money = (value: number) => `₱${value.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -48,7 +48,7 @@ function PayrollForm({ entry, staff, onSave, onClose }: { entry: PayrollEntry | 
 
   return <form onSubmit={submit} className='grid gap-4'>
     <div className='grid gap-3 sm:grid-cols-2'>
-      <label className='grid gap-1.5 text-xs font-semibold sm:col-span-2'>Staff member<select className={selectClass} name='staffId' defaultValue={entry?.staffId ?? ''} required><option value='' disabled>Select a team member</option>{staff.filter((member) => member.status !== 'inactive').map((member) => <option key={member.id} value={member.id}>{member.name} · {member.role} · {member.location}</option>)}</select></label>
+      <label className='grid gap-1.5 text-xs font-semibold sm:col-span-2'>Staff member<SelectMenu label='Staff member' name='staffId' defaultValue={entry?.staffId} placeholder='Select a team member' required options={staff.filter((member) => member.status !== 'inactive').map((member) => ({ value: member.id, label: `${member.name} · ${member.role} · ${member.location}` }))} className='w-full' /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Period starts<input className={inputClass} type='date' name='periodStart' defaultValue={entry?.periodStart} required /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Period ends<input className={inputClass} type='date' name='periodEnd' defaultValue={entry?.periodEnd} required /></label>
       <label className='grid gap-1.5 text-xs font-semibold'>Hours worked<input className={inputClass} type='number' name='hours' min='0.01' step='0.25' defaultValue={entry?.hours} placeholder='80' required /></label>
@@ -91,24 +91,24 @@ export default function PayrollManager({ payroll, staff, staffHydrated }: Props)
     </div>
     <Card className='overflow-hidden rounded-md border-border bg-card p-4 shadow-sm sm:p-5'>
       <div className='mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-        <div><h2 className='text-base font-semibold'>Payroll records</h2><p className='text-xs text-muted-foreground'>{payroll.filteredEntries.length} of {payroll.entries.length} records</p></div>
-        <div className='flex flex-col gap-2 sm:flex-row sm:flex-wrap'>
+        <div><h2 className='text-base font-semibold'>Payroll records</h2><p className='text-xs text-muted-foreground'>Showing {Math.min(payroll.filteredEntries.length, 10)} of {payroll.filteredEntries.length} matching records</p></div>
+        <div className='flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3'>
           <label className='relative'><Search className='pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground' /><input className='h-9 w-full rounded-md border border-input bg-white pl-9 pr-3 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/30 sm:w-56' placeholder='Search staff or location' value={payroll.query} onChange={(event) => payroll.setQuery(event.target.value)} aria-label='Search payroll records' /></label>
-          <select className='h-9 w-full appearance-auto rounded-md border border-input bg-white px-3 text-xs text-foreground sm:w-auto' value={payroll.statusFilter} onChange={(event) => payroll.setStatusFilter(event.target.value)} aria-label='Filter by payroll status'><option value='all'>All statuses</option>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+          <SelectMenu label='Filter by payroll status' value={payroll.statusFilter} options={[{ value: 'all', label: 'All statuses' }, ...Object.entries(statusLabels).map(([value, label]) => ({ value, label }))]} onChange={payroll.setStatusFilter} />
         </div>
       </div>
       <div className='overflow-x-auto'>
         <Table>
           <TableHeader><TableRow><TableHead>Team member</TableHead><TableHead>Pay period</TableHead><TableHead>Hours</TableHead><TableHead>Gross pay</TableHead><TableHead>Net pay</TableHead><TableHead>Status</TableHead><TableHead className='text-right'>Actions</TableHead></TableRow></TableHeader>
           <TableBody>
-            {payroll.filteredEntries.map((entry) => <TableRow key={entry.id}>
+            {payroll.filteredEntries.slice(0, 10).map((entry) => <TableRow key={entry.id}>
               <TableCell><strong className='block text-xs'>{entry.staffName}</strong><span className='mt-0.5 block text-[10px] capitalize text-muted-foreground'>{entry.role} · {entry.location}</span></TableCell>
               <TableCell><span className='block text-[10px]'>{entry.periodStart}</span><span className='text-[10px] text-muted-foreground'>to {entry.periodEnd}</span></TableCell>
               <TableCell className='text-xs'>{entry.hours}</TableCell>
               <TableCell className='text-xs'>{money(getGrossPay(entry))}</TableCell>
               <TableCell className='text-xs font-semibold'>{money(getNetPay(entry))}</TableCell>
               <TableCell><span className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${entry.status === 'paid' ? 'bg-[#e5eee5] text-[#41664e]' : entry.status === 'approved' ? 'bg-[#f3ebdc] text-[#8b6b35]' : 'bg-[#edf0f2] text-[#5b6871]'}`}>{statusLabels[entry.status]}</span></TableCell>
-              <TableCell><div className='flex justify-end gap-1.5'><Button variant='outline' size='sm' className='h-7 px-2.5 text-[10px]' onClick={() => openForm(entry)}>Edit</Button>{entry.status === 'draft' ? <Button variant='outline' size='sm' className='h-7 px-2.5 text-[10px]' onClick={() => payroll.setEntryStatus(entry, 'approved')}>Approve</Button> : entry.status === 'approved' ? <Button variant='outline' size='sm' className='h-7 px-2.5 text-[10px]' onClick={() => payroll.setEntryStatus(entry, 'paid')}>Mark paid</Button> : null}<Button variant='ghost' size='icon-sm' className='text-destructive' aria-label={`Delete payroll record for ${entry.staffName}`} onClick={() => payroll.removeEntry(entry)}><Trash2 className='size-3.5' /></Button></div></TableCell>
+              <TableCell><div className='flex justify-end gap-2'><Button variant='outline' size='sm' className='h-8 w-24 justify-center px-2 text-[10px]' onClick={() => openForm(entry)}>Edit</Button>{entry.status === 'draft' ? <Button variant='outline' size='sm' className='h-8 w-24 justify-center px-2 text-[10px]' onClick={() => payroll.setEntryStatus(entry, 'approved')}>Approve</Button> : entry.status === 'approved' ? <Button variant='outline' size='sm' className='h-8 w-24 justify-center px-2 text-[10px]' onClick={() => payroll.setEntryStatus(entry, 'paid')}>Mark paid</Button> : null}<Button variant='ghost' size='icon-sm' className='text-destructive' aria-label={`Delete payroll record for ${entry.staffName}`} onClick={() => payroll.removeEntry(entry)}><Trash2 className='size-3.5' /></Button></div></TableCell>
             </TableRow>)}
             {payroll.filteredEntries.length === 0 ? <TableRow><TableCell colSpan={7} className='py-10 text-center text-xs text-muted-foreground'>No payroll records match your search. Create a record to get started.</TableCell></TableRow> : null}
           </TableBody>

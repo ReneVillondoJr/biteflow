@@ -44,7 +44,7 @@ export default function DeliveryBoard(props: DeliveryBoardProps) {
             className='h-9 border-[#e1e5de] bg-white pl-9 text-[12px] shadow-none placeholder:text-[#9da59c] focus-visible:border-[#e1e5de] focus-visible:ring-0'
           />
         </div>
-        <div className='flex flex-wrap items-center gap-2'>
+        <div className='flex flex-wrap items-center gap-3'>
           <SelectMenu value={rider} options={deliverySchema.riderOptions} onChange={props.onRiderChange} icon={SlidersHorizontal} label='Filter by delivery rider' className='h-9' />
           <SelectMenu value={status} options={deliverySchema.statusFilters} onChange={props.onStatusFilterChange} label='Filter by delivery status' className='h-9' />
           {(query || rider !== 'All riders' || status !== 'All deliveries') && (

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { SelectMenu } from '@/components/select';
 
 import type { ContactTopic } from '../types/contact';
 
@@ -63,17 +64,14 @@ export default function ContactForm() {
 
               <label className='grid gap-2 text-xs font-bold'>
                 What is this about?
-                <select
+                <SelectMenu
+                  label='What is this about?'
                   name='topic'
                   value={topic}
-                  onChange={(event) => setTopic(event.target.value as ContactTopic)}
-                  className='h-9 w-full rounded-lg border border-input bg-transparent px-3 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50'
-                >
-                  <option value='general'>General question</option>
-                  <option value='order'>An existing order</option>
-                  <option value='feedback'>Feedback</option>
-                  <option value='partnership'>Partnership</option>
-                </select>
+                  onChange={(value) => setTopic(value as ContactTopic)}
+                  options={[{ value: 'general', label: 'General question' }, { value: 'order', label: 'An existing order' }, { value: 'feedback', label: 'Feedback' }, { value: 'partnership', label: 'Partnership' }]}
+                  className='w-full'
+                />
               </label>
 
               <label className='grid gap-2 text-xs font-bold'>

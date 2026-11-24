@@ -7,9 +7,11 @@ import { useMemo, useState } from 'react';
 
 import { adminNavigationGroups } from './navigation';
 import { useSettingsData } from '@/modules/settings/data/store';
+import { useInventoryData } from '@/modules/inventory/data/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -19,8 +21,13 @@ export default function AdminHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [unreadNotifications, setUnreadNotifications] = useState(['orders', 'stock']);
+  const [unreadNotifications, setUnreadNotifications] = useState(['orders']);
   const { data: settings } = useSettingsData();
+  const inventory = useInventoryData();
+  const lowStockItems = settings.lowStockNotifications
+    ? inventory.data.items.filter((item) => item.quantity <= item.reorderAt)
+    : [];
+  const unreadCount = unreadNotifications.length + lowStockItems.length;
   const allowed = settings.roleAccess[settings.navigationRole];
   const visibleItems = adminNavigationGroups.flatMap((group) => group.items).filter((item) => allowed.includes(item.href.split('/').at(-1) as (typeof allowed)[number]));
 
@@ -71,22 +78,34 @@ export default function AdminHeader() {
           Secure
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger aria-label={`Notifications${unreadNotifications.length ? `, ${unreadNotifications.length} unread` : ''}`} className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
+          <DropdownMenuTrigger aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`} className='relative flex size-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground outline-none transition-colors hover:bg-muted'>
             <Bell className='size-4' aria-hidden='true' />
-            {unreadNotifications.length > 0 ? <span className='absolute right-2 top-2 size-2 rounded-full bg-[#c78336] ring-2 ring-white' aria-hidden='true' /> : null}
+            {unreadCount > 0 ? <span className='absolute right-2 top-2 size-2 rounded-full bg-[#c78336] ring-2 ring-white' aria-hidden='true' /> : null}
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' sideOffset={6} className='w-72 rounded-xl border border-border bg-card p-1 shadow-lg ring-0'>
-            <div className='flex items-center justify-between px-2.5 py-1'>
-              <DropdownMenuLabel className='px-0'>Notifications</DropdownMenuLabel>
-              {unreadNotifications.length ? <button type='button' className='text-[10px] font-semibold text-muted-foreground hover:text-foreground' onClick={() => setUnreadNotifications([])}>Mark all read</button> : null}
-            </div>
-            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => openNotification('orders', '/admin/orders')}>
-              <span className={`mt-1 size-1.5 shrink-0 rounded-full ${unreadNotifications.includes('orders') ? 'bg-[#c78336]' : 'bg-transparent'}`} aria-hidden='true' /><span><strong className='block font-semibold'>Review incoming orders</strong><small className='text-muted-foreground'>Open the order queue</small></span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => openNotification('stock', '/admin/inventory')}>
-              <span className={`mt-1 size-1.5 shrink-0 rounded-full ${unreadNotifications.includes('stock') ? 'bg-[#c78336]' : 'bg-transparent'}`} aria-hidden='true' /><span><strong className='block font-semibold'>Check stock levels</strong><small className='text-muted-foreground'>Review inventory alerts</small></span>
-            </DropdownMenuItem>
-            {!unreadNotifications.length ? <p className='px-3 py-2 text-[11px] text-muted-foreground'>You’re all caught up.</p> : null}
+            <DropdownMenuGroup>
+              <div className='flex items-center justify-between px-2.5 py-1'>
+                <DropdownMenuLabel className='px-0'>Notifications</DropdownMenuLabel>
+                {unreadCount ? <button type='button' className='text-[10px] font-semibold text-muted-foreground hover:text-foreground' onClick={() => setUnreadNotifications([])}>{lowStockItems.length ? 'Mark orders read' : 'Mark all read'}</button> : null}
+              </div>
+              <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => openNotification('orders', '/admin/orders')}>
+                <span className={`mt-1 size-1.5 shrink-0 rounded-full ${unreadNotifications.includes('orders') ? 'bg-[#c78336]' : 'bg-transparent'}`} aria-hidden='true' /><span><strong className='block font-semibold'>Review incoming orders</strong><small className='text-muted-foreground'>Open the order queue</small></span>
+              </DropdownMenuItem>
+              {lowStockItems.length ? (
+                <DropdownMenuItem className='rounded-lg px-2.5 py-2 text-[12px]' onClick={() => router.push('/admin/inventory')}>
+                  <span className='mt-1 size-1.5 shrink-0 rounded-full bg-[#c78336]' aria-hidden='true' />
+                  <span>
+                    <strong className='block font-semibold'>Low inventory stock ({lowStockItems.length})</strong>
+                    <small className='text-muted-foreground'>
+                      {lowStockItems.slice(0, 3).map((item) => item.name).join(', ')}
+                      {lowStockItems.length > 3 ? ` +${lowStockItems.length - 3} more` : ''}
+                      {' '}at or below reorder level
+                    </small>
+                  </span>
+                </DropdownMenuItem>
+              ) : null}
+              {!unreadNotifications.length && !lowStockItems.length ? <p className='px-3 py-2 text-[11px] text-muted-foreground'>You’re all caught up.</p> : null}
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>

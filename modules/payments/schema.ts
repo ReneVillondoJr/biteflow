@@ -6,5 +6,5 @@ export const paymentSchema = {
   dateOptions: ['Today', 'Last 7 days', 'This month'] as const,
   statuses: ['Paid', 'Pending', 'Failed', 'Refunded'] as PaymentStatus[],
   methods: ['GCash', 'Card', 'Cash'] as PaymentMethod[],
-  pageSize: 5,
+  pageSize: 10,
 } as const;
