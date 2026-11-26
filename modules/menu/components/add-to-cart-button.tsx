@@ -26,7 +26,7 @@ export default function AddToCartButton({
     <Button
       type='button'
       disabled={!available || !hydrated}
-      className={className}
+      className={['public-action', className].filter(Boolean).join(' ')}
       onClick={() => {
         addItem(slug);
         setAdded(true);

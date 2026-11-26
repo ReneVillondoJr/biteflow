@@ -84,7 +84,7 @@ export default function ContactForm() {
                 />
               </label>
 
-              <Button className='mt-2' type='submit'>
+              <Button className='public-action mt-2' type='submit'>
                 Send message
                 <Send aria-hidden='true' />
               </Button>

@@ -130,7 +130,10 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               </span>
             </label>
 
-            <Button className='login-submit-button mt-2 w-full' type='submit'>
+            <Button
+              className='public-action login-submit-button mt-2 w-full'
+              type='submit'
+            >
               {isRegister ? 'Create account' : 'Sign in'}
               <ArrowRight aria-hidden='true' />
             </Button>
@@ -169,7 +172,12 @@ export function AccountPage() {
             <h1>Sign in to view your account</h1>
             <p>Track orders and keep your BiteFlow details close at hand.</p>
             <div className='mt-6 flex gap-3'>
-              <Button render={<Link href='/auth/login' />}>Sign in</Button>
+              <Button
+                className='public-action'
+                render={<Link href='/auth/login' />}
+              >
+                Sign in
+              </Button>
               <Button variant='outline' render={<Link href='/auth/register' />}>Create account</Button>
             </div>
           </Card>

@@ -74,6 +74,13 @@
   box-sizing: border-box;
 }
 
+.public-site {
+  --secondary: #f0eee7;
+  --secondary-foreground: #34352f;
+  --muted: #f3f1eb;
+  --muted-foreground: #6f6b60;
+}
+
 .search-field-input {
   height: 36px !important;
   border: 1px solid #dfe4dc !important;
@@ -138,10 +145,6 @@ select {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
-}
-
-button {
-  color: inherit;
 }
 
 select,
@@ -304,12 +307,40 @@ img {
 }
 
 .button--primary {
-  background: #34443b;
+  background: #34352f;
   color: var(--primary-foreground);
 }
 
 .button--primary:hover {
-  background: #26372f;
+  background: #242520;
+}
+
+.public-site .public-action {
+  border-color: #34352f !important;
+  background: #34352f !important;
+  color: #fff !important;
+}
+
+.public-site .public-action:hover {
+  border-color: #242520 !important;
+  background: #242520 !important;
+}
+
+.public-site .menu-add-action {
+  border-color: var(--primary) !important;
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+
+.public-site .menu-add-action:hover {
+  border-color: var(--primary-hover) !important;
+  background: var(--primary-hover) !important;
+}
+
+.public-site [data-slot='button'][aria-pressed='true'] {
+  border-color: #b8c8ba !important;
+  background: #e7eee7 !important;
+  color: #234b38 !important;
 }
 
 .button--outline {
@@ -319,8 +350,8 @@ img {
 }
 
 .button--outline:hover {
-  border-color: var(--primary);
-  background: rgba(37, 75, 58, 0.04);
+  border-color: #aaa599;
+  background: rgba(52, 53, 47, 0.04);
 }
 
 .button--light {
@@ -495,8 +526,8 @@ img {
   gap: 9px;
   padding: 0 17px;
   border-radius: 999px;
-  background: var(--primary);
-  color: white;
+  background: #34352f;
+  color: #fff;
   font-size: 11px;
   font-weight: 700;
   transition:
@@ -505,7 +536,7 @@ img {
 }
 
 .header-order:hover {
-  background: var(--primary-hover);
+  background: #242520;
   transform: translateY(-1px);
 }
 
@@ -916,8 +947,8 @@ img {
 
 .menu-category:hover,
 .menu-category--active {
-  border-color: var(--primary);
-  background: var(--primary);
+  border-color: #34352f;
+  background: #34352f;
   color: white;
 }
 
@@ -1039,8 +1070,8 @@ img {
   gap: 6px;
   padding: 0 10px;
   border-radius: 999px;
-  background: #edf0e9;
-  color: var(--primary);
+  background: #f1efe9;
+  color: #34352f;
   font-size: 10px;
   font-weight: 700;
   transition:
@@ -1049,7 +1080,7 @@ img {
 }
 
 .dish-order-link:hover {
-  background: var(--primary);
+  background: #34352f;
   color: white;
 }
 
@@ -4570,6 +4601,7 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-top: 6px;
 }
 
 .menu-card-category {
@@ -4599,7 +4631,7 @@ img {
 }
 
 .menu-card-title {
-  margin: 12px 0 0;
+  margin: 0;
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 400;
@@ -4617,21 +4649,20 @@ img {
 
 .menu-card-description {
   display: -webkit-box;
-  min-height: 59px;
   overflow: hidden;
   margin: 8px 0 0;
   color: var(--foreground-muted);
   font-size: 11px;
   line-height: 1.8;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
 }
 
 .menu-card-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 12px;
+  margin-top: 9px;
 }
 
 .menu-card-tags span {
@@ -4648,7 +4679,7 @@ img {
   justify-content: space-between;
   gap: 8px;
   margin-top: auto;
-  padding-top: 15px;
+  padding-top: 12px;
 }
 
 .menu-card-price {
@@ -4664,10 +4695,9 @@ img {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding-inline: 10px;
-  border-radius: 999px;
-  background: #edf0e9;
-  color: var(--primary);
+  padding: 0;
+  background: transparent;
+  color: var(--foreground-muted);
   font-size: 10px;
   font-weight: 700;
   transition:
@@ -4676,8 +4706,8 @@ img {
 }
 
 .menu-card-action:hover {
-  background: var(--primary);
-  color: white;
+  background: transparent;
+  color: var(--primary);
 }
 
 .menu-card-action svg {
@@ -5364,7 +5394,7 @@ img {
   justify-content: center;
   border: 0;
   border-radius: 11px;
-  background: var(--primary);
+  background: #34352f;
   cursor: pointer;
   color: white;
 }
@@ -5402,8 +5432,8 @@ img {
 }
 
 .location-service-filter button.active {
-  border-color: var(--primary);
-  background: var(--primary);
+  border-color: #34352f;
+  background: #34352f;
   color: white;
 }
 
@@ -5585,7 +5615,7 @@ img {
   margin: 0 18px 18px;
   padding: 0 15px;
   border-radius: 12px;
-  background: var(--primary);
+  background: #34352f;
   color: white;
   font-size: 11px;
   font-weight: 800;
@@ -5630,7 +5660,7 @@ img {
   padding: 10px 14px;
   border: 0;
   border-radius: 10px;
-  background: var(--primary);
+  background: #34352f;
   cursor: pointer;
   color: white;
   font-size: 10px;

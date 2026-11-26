@@ -96,7 +96,10 @@ export default function CheckoutModule() {
               <span>{formatCartPrice(receipt.subtotal)}</span>
             </div>
           </div>
-          <Button render={<Link href='/menu#menu-catalog' />} className='mt-7'>
+          <Button
+            render={<Link href='/menu#menu-catalog' />}
+            className='public-action mt-7'
+          >
             Back to the menu
             <ArrowRight aria-hidden='true' />
           </Button>
@@ -114,7 +117,7 @@ export default function CheckoutModule() {
         </p>
         <Button
           render={<Link href='/menu#menu-catalog' />}
-          className='mt-6'
+          className='public-action mt-6'
         >
           Browse the menu
           <ArrowRight aria-hidden='true' />
@@ -205,7 +208,7 @@ export default function CheckoutModule() {
             Demo only: no order is submitted, no payment is collected, and no
             personal details are stored.
           </p>
-          <Button type='submit' className='w-full'>
+          <Button type='submit' className='public-action w-full'>
             Complete demo order
             <ArrowRight aria-hidden='true' />
           </Button>

@@ -72,7 +72,10 @@ export default function SiteHeader() {
             <UserRound aria-hidden='true' />
           </Link>
 
-          <Link className='hidden items-center gap-2 rounded-xl border border-[#d8e2d9] bg-[#eaf0ea] px-4 py-3 text-xs font-bold text-[#294536] transition-all hover:-translate-y-0.5 hover:bg-[#dfe9e0] sm:flex' href='/menu#menu-catalog'>
+          <Link
+            className='hidden items-center gap-2 rounded-xl border border-[#dedbd2] bg-[#f3f0e9] px-4 py-3 text-xs font-bold text-[#34352f] transition-all hover:-translate-y-0.5 hover:border-[#c9c3b6] hover:bg-[#ebe7dd] sm:flex'
+            href='/menu#menu-catalog'
+          >
             <ShoppingBag aria-hidden='true' />
 
             <span>Order online</span>

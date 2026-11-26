@@ -43,6 +43,10 @@ export default function MenuCard({ item }: MenuCardProps) {
       </Link>
 
       <div className='menu-card-content'>
+        <h2 className='menu-card-title'>
+          <Link href={`/menu/${item.slug}`}>{item.name}</Link>
+        </h2>
+
         <div className='menu-card-meta'>
           <span className='menu-card-category'>{item.category}</span>
 
@@ -51,10 +55,6 @@ export default function MenuCard({ item }: MenuCardProps) {
             {item.prepTime} min
           </span>
         </div>
-
-        <h2 className='menu-card-title'>
-          <Link href={`/menu/${item.slug}`}>{item.name}</Link>
-        </h2>
 
         <p className='menu-card-description'>{item.description}</p>
 
@@ -78,7 +78,7 @@ export default function MenuCard({ item }: MenuCardProps) {
         <AddToCartButton
           slug={item.slug}
           available={item.isAvailable}
-          className='mt-3 w-full'
+          className='menu-add-action mt-3 w-full'
         />
       </div>
     </article>

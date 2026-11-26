@@ -11,12 +11,14 @@ export default function PublicLayout({
 }>) {
   return (
     <CartProvider>
-      <SiteHeader />
-      <CartStorageNotice />
+      <div className='public-site'>
+        <SiteHeader />
+        <CartStorageNotice />
 
-      <main className='min-h-[60vh]'>{children}</main>
+        <main className='min-h-[60vh]'>{children}</main>
 
-      <SiteFooter />
+        <SiteFooter />
+      </div>
     </CartProvider>
   );
 }

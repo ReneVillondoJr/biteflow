@@ -35,7 +35,10 @@ export default function CartModule() {
         <p className='mt-3 max-w-md text-muted-foreground'>
           Browse the menu and add a few favorites to get started.
         </p>
-        <Button render={<Link href='/menu#menu-catalog' />} className='mt-6'>
+        <Button
+          render={<Link href='/menu#menu-catalog' />}
+          className='public-action mt-6'
+        >
           Browse the menu
           <ArrowRight aria-hidden='true' />
         </Button>
@@ -140,7 +143,7 @@ export default function CartModule() {
           </p>
           <Button
             render={<Link href='/checkout' />}
-            className='mt-6 w-full'
+            className='public-action mt-6 w-full'
             disabled={items.some(({ item }) => !item.isAvailable)}
           >
             Continue to checkout
